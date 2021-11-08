@@ -1,0 +1,225 @@
+script(src="javascripts/echarts.js")
+script(src="javascripts/jquery-3.6.0.js")
+#main(style="height:700px;width:100%")
+script.
+    fetch('data/difference.json').then(function(data) {
+        return data.json()
+    }).then(function(json) {
+        $('#main').css('height',50*json['data'].length+200);
+        function renderItem(params, api) {
+            var categoryIndex = api.value(0);
+            var start = api.coord([api.value(1), categoryIndex]);
+            let width = api.size([1,0])[0]*0.8;
+            var height = api.size([0, 1])[1] * 0.4;
+            let x0=start[0]+3;
+            let x1=start[0]+width+3;
+            let y0=start[1]-height/2;
+            let y1=start[1]+height/2;
+            var rectShape = echarts.graphic.clipPointsByRect(
+                [
+                    [x0,y0],
+                    [x0,y1],
+                    [x1-width/4,y1],
+                    [x1,(y0+y1)/2],
+                    [x1-width/4,y0]
+                ],
+                //- {
+                //-     x: start[0],
+                //-     y: start[1] - height / 2,
+                //-     width: 30,
+                //-     height: height
+                //- },
+                {
+                    x: params.coordSys.x,
+                    y: params.coordSys.y,
+                    width: params.coordSys.width,
+                    height: params.coordSys.height
+                }
+            );
+            console.log(api.style());
+            return (
+                rectShape && {
+                    type: 'polygon',
+                    transition:['shape','style','extra'],
+                    shape: {points:rectShape},
+                    style: api.style(),
+                    focus:'series',
+                    emphasis:{
+                        style:api.styleEmphasis({
+                            lineWidth:0,
+                            stroke: api.visual('color')+'bb'
+                        })
+                    },
+                    select:{
+                        style:api.styleEmphasis({
+                            lineWidth:10,
+                            stroke: deeper[api.visual('color')]
+                        }),
+                        textConfig:{
+                            rotation:0
+                        }
+                    },
+                    textContent: {
+                        transition:['shape','style'],
+                        style: {
+                            text: api.value(2),
+                            fill:'#4449',
+                            backgroundColor: '#fff0',
+                            padding:0,
+                            borderRadius:10
+                        },
+                        emphasis:{
+                            style:{
+                                text: api.value(2),
+                                fill:'#000f',
+                                backgroundColor:api.visual('color')+'bb',
+                                padding:10,
+                                borderRadius:10
+                            }
+                        },
+                        select:{
+                            style:{
+                                text: api.value(2),
+                                fill:'#000f',
+                                backgroundColor:api.visual('color')+'bb',
+                                padding:10,
+                                borderRadius:10
+                            }
+                        }
+                    },
+                    textConfig: {position: 'inside',rotation:-0.7}
+                }
+            );
+        }
+
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom,null,{renderer:'canvas'});
+        var option;
+
+        var data = [];
+        var yAxis = [];
+        var color = ['#bd6d6c','#7b9ce1','#75d874'];
+        let deeper={'#bd6d6c':'#955','#7b9ce1':'#68c','#75d874':'#6b6'}
+        topGene=json['top'];
+        //- let topLen = 0;
+        //- for (;topLen < topGene.length;topLen++)
+        //-     if (topGene[topLen][1]<3)
+        //-         break;
+        legend=[];
+        series=[];
+
+        for (let i=0;i<topGene.length;i++){
+            let name = topGene[i][0];
+            legend.push(name);
+            series.push(
+                {
+                    type: 'custom',
+                    name: name,
+                    renderItem: renderItem,
+                    encode: {
+                        x: 1,
+                        y: 0
+                    },
+                    universalTransition: true,
+                    selectedMode: true,
+                    data: []
+                })
+        }
+        let maxLength=0;
+        json['data'].forEach(function (x, index) {
+            console.log(x)
+            maxLength = Math.max(maxLength,x['data'].length);
+            yAxis.push(x['species'])
+            for (let i=0;i<x['data'].length;i++) {
+                y=x['data'][i];
+                if (y['gene']!='#'){
+                    let borderWidth=3;
+                    if (!y['same'])
+                        borderWidth=0;
+                    gene=y['gene'];
+                    let j=0;
+                    for (;j<topGene.length;j++)
+                        if (topGene[j][0]==gene)
+                            break;
+                    series[j]['data'].push({
+                        name: gene,
+                        value: [index,i,gene,y['exon'],y['product'],y['chromosome'],y['start'],y['end']],
+                        itemStyle: {
+                            color: color[y['type']],
+                            borderType: 'solid',
+                            borderColor: '#222b',
+                            borderWidth: borderWidth,
+                        },
+                    })
+                }
+            }
+        });
+        height=$('#main').height();
+        option = {
+            tooltip: {
+                formatter: function (params) {
+                    return params.marker + params.name +'<br> number of exon: '+params.value[3]+'<br>product: '+params.value[4]+'<br>chromosome: '+params.value[5]+'<br>start: '+params.value[6]+'<br>end: '+params.value[7];
+                }
+            },
+            dataZoom: [
+                {
+                    type: 'slider',
+                    filterMode: 'weakFilter',
+                    showDataShadow: false,
+                    top: height-100,
+                    labelFormatter: '',
+                    startValue:0,
+                    endValue:30,
+                    minValueSpan: 10,
+                    maxValueSpan: 100
+                },
+                {
+                    type: 'inside',
+                    filterMode: 'weakFilter'
+                }
+            ],
+            grid: {
+                height: height-200
+            },
+            legend:{
+                type:'scroll',
+                show:true,
+                data:legend,
+                selectedMode: 'multiple'
+            },
+            xAxis: {
+                scale: true,
+                //- axisLabel: {
+                //-     formatter: function (val) {
+                //-         return Math.max(0, val - startTime) + ' ms';
+                //-     }
+                //- }
+            },
+            yAxis: {
+                data: yAxis
+            },
+            series: series
+        };
+
+        option && myChart.setOption(option);
+        //- myChart.on('click',function (params){
+        //-     console.log('hi');
+        //-     myChart.dispatchAction({
+        //-         type: 'select',
+        //-         seriesName: params['name'],
+        //-     });
+        //- })
+        //- 可用focus替代
+        //- myChart.on('mouseover',function (params){
+        //-     myChart.dispatchAction({
+        //-         type: 'highlight',
+        //-         seriesName: params['name'],
+        //-     });
+        //- })
+        //- myChart.on('mouseout',function (params){
+        //-     myChart.dispatchAction({
+        //-         type: 'downplay',
+        //-         seriesName: params['name'],
+        //-     });
+        //- })
+    })
