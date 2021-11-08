@@ -19,6 +19,8 @@ script(src="javascripts/bootstrap.bundle.js")
 
 #main(style="height:700px;width:100%")
 script.
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom,null,{renderer:'canvas'});
     function draw(file){
         Promise.all([
             fetch('data/'+file+'.json'),
@@ -30,7 +32,7 @@ script.
             let species=datas[1];
             //- console.log(json);
             $('#main').css('height',50*json['data'].length+200);
-
+            myChart.resize();
             let mp={};
             for (let i=0;i<species.length;i++){
                 mp[species[i].join('_')]=i;
@@ -124,8 +126,6 @@ script.
                 );
             }
 
-            var chartDom = document.getElementById('main');
-            var myChart = echarts.init(chartDom,null,{renderer:'canvas'});
             var option;
 
             var data = [];
