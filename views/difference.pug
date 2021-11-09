@@ -50,32 +50,49 @@ script.
                 let x1=start[0]+width+3;
                 let y0=start[1]-height/2;
                 let y1=start[1]+height/2;
-                var rectShape = echarts.graphic.clipPointsByRect(
-                    [
+                let points=[];
+                if (api.value(5)=='+')
+                    points=[
                         [x0,y0],
                         [x0,y1],
                         [x1-width/4,y1],
                         [x1,(y0+y1)/2],
                         [x1-width/4,y0]
-                    ],
-                    //- {
-                    //-     x: start[0],
-                    //-     y: start[1] - height / 2,
-                    //-     width: 30,
-                    //-     height: height
-                    //- },
-                    {
-                        x: params.coordSys.x,
-                        y: params.coordSys.y,
-                        width: params.coordSys.width,
-                        height: params.coordSys.height
-                    }
-                );
+                    ]
+                else
+                    points=[
+                        [x0,(y0+y1)/2],
+                        [x0+width/4,y1],
+                        [x1,y1],
+                        [x1,y0],
+                        [x0+width/4,y0]
+                    ]
+                //- var rectShape = echarts.graphic.clipPointsByRect(
+                //-     [
+                //-         [x0,y0],
+                //-         [x0,y1],
+                //-         [x1-width/4,y1],
+                //-         [x1,(y0+y1)/2],
+                //-         [x1-width/4,y0]
+                //-     ],
+                //-     //- {
+                //-     //-     x: start[0],
+                //-     //-     y: start[1] - height / 2,
+                //-     //-     width: 30,
+                //-     //-     height: height
+                //-     //- },
+                //-     {
+                //-         x: params.coordSys.x,
+                //-         y: params.coordSys.y,
+                //-         width: params.coordSys.width,
+                //-         height: params.coordSys.height
+                //-     }
+                //- );
                 return (
-                    rectShape && {
+                    {
                         type: 'polygon',
                         transition:['shape','style','extra'],
-                        shape: {points:rectShape},
+                        shape: {points:points},
                         style: api.style(),
                         focus:'series',
                         emphasis:{
@@ -130,7 +147,7 @@ script.
 
             var data = [];
             var yAxis = [];
-            var color = ['#bd6d6c','#7b9ce1','#75d874'];
+            var color = ['#bd6d6c','#7b9ce1','#75d874','#75d874'];
             let deeper={'#bd6d6c':'#955','#7b9ce1':'#68c','#75d874':'#6b6'}
             topGene=json['top'];
             //- let topLen = 0;
@@ -148,10 +165,10 @@ script.
                         name: name,
                         renderItem: renderItem,
                         encode: {
-                            x: 1,
+                            x: [1,8],
                             y: 0
                         },
-                        animation: true,
+                        animation: false,
                         universalTransition: true,
                         selectedMode: true,
                         data: []
@@ -160,7 +177,10 @@ script.
             let maxLength=0;
             json['data'].forEach(function (x, index) {
                 maxLength = Math.max(maxLength,x['data'].length);
-                yAxis.push(x['species'])
+                let temp=x['species'].split('_')
+                temp.push(x['chromosome']);
+                temp.push(x['start']+'~'+x['end']);
+                yAxis.push(temp.join('\n'))
                 for (let i=0;i<x['data'].length;i++) {
                     y=x['data'][i];
                     if (y['gene']!='#'){
@@ -172,9 +192,10 @@ script.
                         for (;j<topGene.length;j++)
                             if (topGene[j][0]==gene)
                                 break;
+                        console.log(y);
                         series[j]['data'].push({
                             name: gene,
-                            value: [index,i,gene,y['exon'],y['product'],y['chromosome'],y['start'],y['end']],
+                            value: [index,i,gene,y['exon'],y['product'],y['direction'],y['start'],y['end'],i+1],
                             itemStyle: {
                                 color: color[y['type']],
                                 borderType: 'solid',
@@ -189,7 +210,7 @@ script.
             option = {
                 tooltip: {
                     formatter: function (params) {
-                        return params.marker + params.name +'<br> number of exon: '+params.value[3]+'<br>product: '+params.value[4]+'<br>chromosome: '+params.value[5]+'<br>start: '+params.value[6]+'<br>end: '+params.value[7];
+                        return params.marker + params.name +'<br> number of exon: '+params.value[3]+'<br>product: '+params.value[4]+'<br>start: '+params.value[6]+'<br>end: '+params.value[7];
                     }
                 },
                 dataZoom: [
@@ -201,8 +222,8 @@ script.
                         labelFormatter: '',
                         startValue:0,
                         endValue:30,
-                        minValueSpan: 10,
-                        maxValueSpan: 100,
+                        minValueSpan: 20,
+                        maxValueSpan: 500,
                         realtime: false
                     },
                     {
@@ -211,6 +232,8 @@ script.
                     }
                 ],
                 grid: {
+                    left:200,
+                    right:50
                     //- height: height-300
                 },
                 legend:{
@@ -221,6 +244,9 @@ script.
                 },
                 xAxis: {
                     scale: true,
+                    splitLine: {
+                        show: false
+                    }
                     //- axisLabel: {
                     //-     formatter: function (val) {
                     //-         return Math.max(0, val - startTime) + ' ms';
@@ -228,7 +254,10 @@ script.
                     //- }
                 },
                 yAxis: {
-                    data: yAxis
+                    data: yAxis,
+                    splitLine: {
+                        show: true
+                    }
                 },
                 series: series,
             };
@@ -236,7 +265,6 @@ script.
             option && myChart.setOption(option);
         })
     }
-    draw('5_NOL6');
 
     fetch('data/5_list.json').then(
         data => data.json()
@@ -245,6 +273,7 @@ script.
         for (x of json){
             $('#select2').append('<option value="' +x+'">'+x+'</option>');
         }
+        draw('5_'+$('#select2').val());
     })
 
     $('#select1').on('change',function(){
