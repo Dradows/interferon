@@ -3,23 +3,23 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-    res.render('index', { title: 'Express' });
+	res.render('index', { title: 'Express' });
 });
 
 router.get('/tree', function (req, res, next) {
-    res.render('tree');
+	res.render('tree');
 });
 
 router.get('/treeBird', function (req, res, next) {
-    res.render('treeBird');
+	res.render('treeBird');
 });
 
 router.get('/difference', function (req, res, next) {
-    res.render('difference');
+	res.render('difference');
 });
 
-router.get('/chromosom', function (req, res, next) {
-    res.render('chromosom');
+router.get('/chromosome', function (req, res, next) {
+	res.render('chromosome');
 });
 
 module.exports = router;
