@@ -1,6 +1,7 @@
 module.exports = {
   apps: [
     {
+      name: 'interferon',
       script: 'bin/www',
       watch: true,
       ignore_watch: ['.git', 'node_modules', 'public', 'views','logs'],
