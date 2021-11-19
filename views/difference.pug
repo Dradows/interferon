@@ -281,7 +281,7 @@ script.
         });
 
     $("#select1").on("change", function () {
-        fetch("data/" + this.value + "_list.json")
+        fetch("data/collections/" + this.value + "_list.json")
             .then(data => data.json())
             .then(json => {
                 $("#select2 option").remove();
