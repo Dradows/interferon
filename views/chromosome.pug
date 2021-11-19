@@ -209,6 +209,9 @@ script.
       let res = await fetch("data/tree.json");
       tree = await res.json();
     }
-    let speciesList = getSpecies(tree, $("#textArea").val().split(","), false);
+    let tempList = $("#textArea").val().split(/[,，]/);
+    tempList = tempList.map(x => x.trim());
+    console.log(tempList);
+    let speciesList = getSpecies(tree, tempList, false);
     draw(speciesList);
   });
