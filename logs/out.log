@@ -2083,3 +2083,30 @@
 2021-11-26 11:23:04: Already up to date.
 2021-11-26 11:23:04: 
 2021-11-26 11:23:10: [0mPOST /interferon/update [33m404 [0m465.874 ms - 972[0m
+2021-11-26 15:03:46: [0mGET /interferon/chromosome [36m304 [0m2854.961 ms - -[0m
+2021-11-26 15:03:46: [0mGET /interferon/stylesheets/bootstrap.css [36m304 [0m6.478 ms - -[0m
+2021-11-26 15:03:46: [0mGET /interferon/javascripts/jquery-3.6.0.js [36m304 [0m5.682 ms - -[0m
+2021-11-26 15:03:46: [0mGET /interferon/javascripts/echarts.js [36m304 [0m7.989 ms - -[0m
+2021-11-26 15:03:46: [0mGET /interferon/javascripts/bootstrap.bundle.js [36m304 [0m3.839 ms - -[0m
+2021-11-26 15:03:46: [0mGET /interferon/data/tree.json [36m304 [0m1.417 ms - -[0m
+2021-11-26 15:03:46: [0mGET /interferon/data/chResults.json [36m304 [0m1.396 ms - -[0m
+2021-11-26 15:03:47: [0mGET /favicon.ico [33m404 [0m29.723 ms - 1324[0m
+2021-11-26 15:04:06: [0mGET /interferon/difference [32m200 [0m186.315 ms - 9189[0m
+2021-11-26 15:04:06: [0mGET /interferon/stylesheets/bootstrap.css [36m304 [0m1.588 ms - -[0m
+2021-11-26 15:04:06: [0mGET /interferon/javascripts/echarts.js [36m304 [0m2.766 ms - -[0m
+2021-11-26 15:04:06: [0mGET /interferon/javascripts/jquery-3.6.0.js [36m304 [0m2.185 ms - -[0m
+2021-11-26 15:04:06: [0mGET /interferon/javascripts/bootstrap.bundle.js [36m304 [0m2.048 ms - -[0m
+2021-11-26 15:04:06: [0mGET /interferon/data/collections/5_list.json [36m304 [0m3.434 ms - -[0m
+2021-11-26 15:04:06: [0mGET /interferon/data/sortedSpecies.json [36m304 [0m3.938 ms - -[0m
+2021-11-26 15:04:06: [0mGET /interferon/data/collections/5_FOCAD_37.json [32m200 [0m27.278 ms - 106995[0m
+2021-11-26 20:16:21: [0mGET /interferon/chromosome [36m304 [0m178.100 ms - -[0m
+2021-11-26 20:16:21: [0mGET /interferon/stylesheets/bootstrap.css [36m304 [0m3.373 ms - -[0m
+2021-11-26 20:16:21: [0mGET /interferon/javascripts/echarts.js [36m304 [0m3.606 ms - -[0m
+2021-11-26 20:16:21: [0mGET /interferon/javascripts/jquery-3.6.0.js [36m304 [0m3.448 ms - -[0m
+2021-11-26 20:16:21: [0mGET /interferon/javascripts/bootstrap.bundle.js [36m304 [0m2.776 ms - -[0m
+2021-11-26 20:16:22: [0mGET /interferon/data/tree.json [32m200 [0m11.410 ms - 10820[0m
+2021-11-26 20:16:22: [0mGET /interferon/data/chResults.json [32m200 [0m19.753 ms - 178980[0m
+2021-11-26 20:16:23: [0mGET /favicon.ico [33m404 [0m44.716 ms - 1324[0m
+2021-11-26 20:20:34: [0mGET /interferon/tree [36m304 [0m112.032 ms - -[0m
+2021-11-26 20:20:34: [0mGET /interferon/javascripts/echarts.js [36m304 [0m1.599 ms - -[0m
+2021-11-26 20:20:34: [0mGET /interferon/data/tree.json [36m304 [0m0.916 ms - -[0m
