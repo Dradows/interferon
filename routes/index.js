@@ -24,7 +24,14 @@ router.get('/chromosome', function (req, res, next) {
 
 router.get('/update', (req, res, next) => {
   let exec = require('child_process').exec;
-  exec('git pull');
+  exec('git pull', (err, stdout, stderr) => {
+    if (err) {
+      console.log(err);
+    }
+    if (stdout) {
+      console.log(stdout);
+    }
+  });
   res.status(200).send('updated');
 });
 
