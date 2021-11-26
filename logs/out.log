@@ -2069,3 +2069,13 @@
 2021-11-26 10:20:39: [0mGET /interferon/javascripts/bootstrap.bundle.js [36m304 [0m2.958 ms - -[0m
 2021-11-26 10:20:39: [0mGET /interferon/data/tree.json [36m304 [0m0.820 ms - -[0m
 2021-11-26 10:20:39: [0mGET /interferon/data/chResults.json [36m304 [0m0.707 ms - -[0m
+2021-11-26 11:16:59: [0mGET /interferon/chromosome [32m200 [0m434.991 ms - 6611[0m
+2021-11-26 11:17:00: [0mGET /interferon/stylesheets/bootstrap.css [36m304 [0m1.586 ms - -[0m
+2021-11-26 11:17:00: [0mGET /interferon/javascripts/echarts.js [36m304 [0m0.719 ms - -[0m
+2021-11-26 11:17:00: [0mGET /interferon/javascripts/jquery-3.6.0.js [36m304 [0m0.504 ms - -[0m
+2021-11-26 11:17:00: [0mGET /interferon/javascripts/bootstrap.bundle.js [36m304 [0m0.414 ms - -[0m
+2021-11-26 11:17:00: [0mGET /interferon/data/tree.json [32m200 [0m3.900 ms - 23867[0m
+2021-11-26 11:17:00: [0mGET /interferon/data/chResults.json [36m304 [0m0.556 ms - -[0m
+2021-11-26 11:17:06: [0mGET /interferon/update [32m200 [0m11.554 ms - 7[0m
+2021-11-26 11:17:10: Already up to date.
+2021-11-26 11:17:10: 
