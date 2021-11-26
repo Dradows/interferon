@@ -6,13 +6,12 @@ script(src='javascripts/bootstrap.bundle.js')
 .d-flex.justify-content-center.m-3(role='group')
   .form-floating.w-75
     textarea#textArea.form-control
-    label(for='select1') phylum, class, order, family, genus, species 可输入多种，请以逗号分隔
-  //- .form-floating
-  //-   select#select2.form-select
-  //-     option(value='NOL6', selected) NOL6
-  //-     option(value='FOCAD') FOCAD
-  //-     option(value='15') 15
-  //-   label(for='select2') Gene
+    label(for='textArea') phylum, class, order, family, genus, species 可输入多种，请以逗号分隔
+  .form-floating
+    select#select.form-select
+      option(value='NC', selected) only NC
+      option(value='both') both NC and NW
+    label(for='select') Chromosome type
   buttun#btn.btn.btn-primary.pt-3 Submit
 //- #main(style='width: 100%; height: 250px')
 script.
@@ -20,7 +19,7 @@ script.
   let groupDatas;
   //- var chartDom = document.getElementById("main");
   //- var myChart = echarts.init(chartDom, null, { renderer: "canvas" });
-  async function draw(speciesList) {
+  async function draw(speciesList, chk) {
     if (groupDatas == null) {
       let data = await fetch("data/chResults.json");
       groupDatas = await data.json();
@@ -72,7 +71,7 @@ script.
     }
     let offset = 0;
     for (let ii = 0; ii < groupDatas.length; ii++) {
-      if (groupDatas[ii].chromosome.includes("NW") || !speciesList.includes(groupDatas[ii].species)) {
+      if ((chk && groupDatas[ii].chromosome.includes("NW")) || !speciesList.includes(groupDatas[ii].species)) {
         continue;
       }
       let option;
@@ -202,7 +201,7 @@ script.
     .then(data => data.json())
     .then(json => {
       tree = json;
-      draw(getSpecies(tree, [], true));
+      draw(getSpecies(tree, [], true), true);
     });
   $("#btn").on("click", async () => {
     if (tree == null) {
@@ -213,5 +212,11 @@ script.
     tempList = tempList.map(x => x.trim());
     console.log(tempList);
     let speciesList = getSpecies(tree, tempList, false);
-    draw(speciesList);
+    let chk;
+    if ($("#select").val() == "NC") {
+      chk = true;
+    } else {
+      chk = false;
+    }
+    draw(speciesList, chk);
   });
