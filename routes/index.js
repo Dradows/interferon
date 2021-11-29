@@ -38,4 +38,18 @@ router.get('/update', (req, res, next) => {
   res.status(200).send('updated');
 });
 
+router.post('/update', (req, res, next) => {
+  let exec = require('child_process').exec;
+  exec('git pull', (err, stdout, stderr) => {
+    if (err) {
+      console.log(err);
+    }
+    if (stdout) {
+      console.log(stdout);
+    }
+  });
+  res.status(200).send('updated');
+});
+
+
 module.exports = router;
