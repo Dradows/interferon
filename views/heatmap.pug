@@ -42,23 +42,20 @@ block content
                 return params.data[3] + "<br>" + params.data[4] + "<br>" + params.data[2];
               },
             },
-            //- dataZoom: [
-            //-   {
-            //-     type: "slider",
-            //-     filterMode: "weakFilter",
-            //-     showDataShadow: false,
-            //-     //- top: height-200,
-            //-     labelFormatter: "",
-            //-     startValue: 0,
-            //-     minValueSpan: 20,
-            //-     maxValueSpan: 500,
-            //-     realtime: false,
-            //-   },
-            //-   {
-            //-     type: "inside",
-            //-     filterMode: "weakFilter",
-            //-   },
-            //- ],
+            dataZoom: [
+              {
+                id: "dataZoomX",
+                type: "slider",
+                xAxisIndex: [0],
+                filterMode: "filter",
+              },
+              {
+                id: "dataZoomY",
+                type: "slider",
+                yAxisIndex: [0],
+                filterMode: "filter",
+              },
+            ],
             grid: {
               left: 200,
               right: 50,
@@ -75,8 +72,9 @@ block content
               max: 1,
               calculable: true,
               orient: "horizontal",
-              left: "center",
+              left: "left",
               dimension: 2,
+              precision: 2,
             },
             series: {
               type: "heatmap",
