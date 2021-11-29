@@ -1,0 +1,91 @@
+extends layout
+block content
+  //- .d-flex.justify-content-center.m-3(role='group')
+  //-   .form-floating
+  //-     select#select1.form-select
+  //-       option(value='5', selected) 5
+  //-       option(value='10') 10
+  //-       option(value='15') 15
+  //-     label(for='select1') Length
+  //-   .form-floating
+  //-     select#select2.form-select
+  //-       option(value='NOL6', selected) NOL6
+  //-       option(value='FOCAD') FOCAD
+  //-       option(value='15') 15
+  //-     label(for='select2') Gene
+  //-   buttun#btn.btn.btn-primary.pt-3 Submit
+
+  #main(style='height: 700px; width: 100%')
+  script.
+    var chartDom = document.getElementById("main");
+    var myChart = echarts.init(chartDom, null, { renderer: "canvas" });
+    function draw() {
+      Promise.all([fetch("data/heatmap.json"), fetch("data/axis.json")])
+        .then(responses => Promise.all(responses.map(response => response.json())))
+        .then(datas => {
+          let heatmap = datas[0];
+          let axis = datas[1];
+          let data = [];
+          let len = heatmap.length;
+          for (let i = 0; i < len; i++) {
+            for (let j = 0; j < len; j++) {
+              data.push([i, j, heatmap[i][j], axis[i][0] + "_" + axis[i][1], axis[j][0] + "_" + axis[j][1]]);
+            }
+          }
+          console.log(data);
+          var option;
+
+          option = {
+            tooltip: {
+              position: "bottom",
+              formatter: function (params) {
+                return params.data[3] + "<br>" + params.data[4] + "<br>" + params.data[2];
+              },
+            },
+            //- dataZoom: [
+            //-   {
+            //-     type: "slider",
+            //-     filterMode: "weakFilter",
+            //-     showDataShadow: false,
+            //-     //- top: height-200,
+            //-     labelFormatter: "",
+            //-     startValue: 0,
+            //-     minValueSpan: 20,
+            //-     maxValueSpan: 500,
+            //-     realtime: false,
+            //-   },
+            //-   {
+            //-     type: "inside",
+            //-     filterMode: "weakFilter",
+            //-   },
+            //- ],
+            grid: {
+              left: 200,
+              right: 50,
+              //- height: height-300
+            },
+            xAxis: {
+              data: axis,
+            },
+            yAxis: {
+              data: axis,
+            },
+            visualMap: {
+              min: 0,
+              max: 1,
+              calculable: true,
+              orient: "horizontal",
+              left: "center",
+              dimension: 2,
+            },
+            series: {
+              type: "heatmap",
+              data: data,
+              progressive: 3000,
+            },
+          };
+          myChart.clear();
+          option && myChart.setOption(option);
+        });
+    }
+    draw();

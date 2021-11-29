@@ -21,6 +21,9 @@ router.get('/difference', function (req, res, next) {
 router.get('/chromosome', function (req, res, next) {
   res.render('chromosome');
 });
+router.get('/heatmap', function (req, res, next) {
+  res.render('heatmap');
+});
 
 router.get('/update', (req, res, next) => {
   let exec = require('child_process').exec;
