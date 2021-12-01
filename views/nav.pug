@@ -1,0 +1,30 @@
+link(href='stylesheets/style.css', rel='stylesheet')
+link(href='stylesheets/bootstrap.css', rel='stylesheet')
+script(src='javascripts/echarts.js')
+script(src='javascripts/jquery-3.6.0.js')
+script(src='javascripts/bootstrap.bundle.js')
+
+.navFirst.text-center.w-100
+  nav.navbar.navbar-expand-lg
+    .container-fluid
+      button.navbar-toggler(
+        type='button',
+        data-bs-toggle='collapse',
+        data-bs-target='#theNavBar',
+        aria-controls='theNavBar',
+        aria-expanded='false',
+        aria-label='Toggle navigation'
+      )
+        span.navbar-toggler-icon
+      #theNavBar.collapse.navbar-collapse.pl-5
+        ul.navbar-nav.mr-auto.ml-4
+          li.nav-item
+            a.nav-link(class={ active: title === "Tree" }, href='tree') Tree
+          li.nav-item
+            a.nav-link(class={ active: title === "Difference" }, href='difference') Difference
+          li.nav-item
+            a.nav-link(class={ active: title === "Chromosome" }, href='chromosome') Chromosome
+          li.nav-item
+            a.nav-link(class={ active: title === "Heatmap" }, href='heatmap') Heatmap
+          li.nav-item
+            a.nav-link(class={ active: title === "Align" }, href='align') Align
