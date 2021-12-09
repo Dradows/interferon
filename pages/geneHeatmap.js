@@ -3,20 +3,20 @@ import ReactECharts from 'echarts-for-react';
 import Nav from '../components/nav.js';
 import { useState, useEffect, useRef } from 'react';
 import { message, Layout, Select, Input } from 'antd';
-import heatmap from '../data/proteinHeatmap.json';
-import axis from '../data/proteinAxis.json';
+import heatmap from '../data/geneHeatmap.json';
+import axis from '../data/geneAxis.json';
 
 const { Header, Footer, Sider, Content } = Layout;
 
 // const Nav = dynamic(import('../components/nav.js'), { ssr: false });
 
-export default function ProteinHeatmap() {
+export default function GeneHeatmap() {
   const echartRef = useRef();
   const textRef = useRef();
   const thresholdRef = useRef();
   const [selected, setSelected] = useState('HACD4/FOCAD');
   const [text, setText] = useState('');
-  const [threshold, setThreshold] = useState(0.2);
+  const [threshold, setThreshold] = useState(0.4);
   useEffect(() => {
     console.log(textRef.current);
     textRef.current.setValue(text);
@@ -35,7 +35,7 @@ export default function ProteinHeatmap() {
     if (text != '') {
       let temp = newAxis.find(x => x[1] == text);
       if (temp == undefined) {
-        message.error('No such protein');
+        message.error('No such gene');
         return;
       }
       let pos = temp[4];
@@ -158,7 +158,7 @@ export default function ProteinHeatmap() {
               <Select.Option value='MTAP'>MTAP</Select.Option>
             </Select>
             <Input.Search
-              placeholder='Protein'
+              placeholder='Gene'
               ref={textRef}
               size='large'
               allowClear={true}
@@ -180,7 +180,7 @@ export default function ProteinHeatmap() {
           style={{ height: '90vh', width: '100%' }}
           onEvents={{
             click: e =>
-              setText(e.name.split('_')[2] + '_' + e.name.split('_')[3]),
+              setText(e.name.split('_')[2]),
           }}
         />
       </Content>

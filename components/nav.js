@@ -25,7 +25,7 @@ export default function Nav({ selected }) {
         </Menu.Item>
         <SubMenu key='Heatmap' title='Heatmap' icon={<DownOutlined />}>
           <Menu.Item key='GeneHeatmap'>
-            <Link href='/heatmap'>Gene sequence</Link>
+            <Link href='/geneHeatmap'>Gene sequence</Link>
           </Menu.Item>
           <Menu.Item key='ProteinHeatmap'>
             <Link href='/proteinHeatmap'>Protein sequence</Link>
