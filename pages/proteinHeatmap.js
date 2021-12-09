@@ -9,7 +9,6 @@ import axis from '../data/proteinAxis.json';
 const { Header, Footer, Sider, Content } = Layout;
 
 // const Nav = dynamic(import('../components/nav.js'), { ssr: false });
-
 export default function Heatmap() {
   const echartRef = useRef();
   useEffect(() => {
@@ -21,11 +20,12 @@ export default function Heatmap() {
           i,
           j,
           heatmap[i][j],
-          axis[i][0] + '_' + axis[i][1],
-          axis[j][0] + '_' + axis[j][1],
+          axis[i][0] + '_' + axis[i][1]+'_'+axis[i][2].join(','),
+          axis[j][0] + '_' + axis[j][1]+'_'+axis[j][2].join(',')
         ]);
       }
     }
+    let showAxis=axis.map(d=>d[0]+'_'+d[1]);
     console.log(data);
     var option;
 
@@ -58,10 +58,10 @@ export default function Heatmap() {
         //- height: height-300
       },
       xAxis: {
-        data: axis,
+        data: showAxis,
       },
       yAxis: {
-        data: axis,
+        data: showAxis,
       },
       visualMap: {
         min: 0,
