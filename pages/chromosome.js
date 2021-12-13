@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import tree from '../data/tree.json';
-import ReactECharts from 'echarts-for-react';
 import Nav from '../components/nav.js';
 import { useState, useEffect, useRef } from 'react';
 import { Layout, Input, Select } from 'antd';

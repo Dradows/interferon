@@ -1,3 +1,6 @@
+// 迁移至geneHeatmap，需将protein替换为gene（标题大写，message提示大写），
+// setText无需拼接，threshold调整为0.4
+
 import Head from 'next/head';
 import ReactECharts from 'echarts-for-react';
 import Nav from '../components/nav.js';

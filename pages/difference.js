@@ -1,13 +1,9 @@
 import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
-import tree from '../data/tree.json';
 import ReactECharts from 'echarts-for-react';
 import Nav from '../components/nav.js';
-import Script from 'next/script';
-import { Cascader, Divider, Layout, Row } from 'antd';
+import { Cascader, Divider, Layout } from 'antd';
 import * as echarts from 'echarts';
 import cascaderOptions from '../data/cascaderOptions.json';
 
