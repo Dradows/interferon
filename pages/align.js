@@ -77,8 +77,6 @@ export default function Align() {
             allowClear={false}
             showSearch={true}
             defaultValue={[
-              cascaderOptions[1].value,
-              cascaderOptions[1].children[1].value,
             ]}
             options={cascaderOptions}
             onChange={update}
