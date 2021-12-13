@@ -3,7 +3,7 @@ import tree from '../data/tree.json';
 import ReactECharts from 'echarts-for-react';
 import Nav from '../components/nav.js';
 import { useState, useEffect, useRef } from 'react';
-import { Layout,Cascader } from 'antd';
+import { Layout, Cascader } from 'antd';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -72,15 +72,15 @@ export default function Align() {
         <Nav selected='Align' />
       </Header>
       <Content>
-      <Cascader
+        {/* <Cascader
             size='large'
             allowClear={false}
             showSearch={true}
             defaultValue={[
             ]}
-            options={cascaderOptions}
-            onChange={update}
-          />
+            options={}
+            onChange={}
+          /> */}
         <ReactECharts
           ref={echartRef}
           option={{}}
@@ -92,7 +92,6 @@ export default function Align() {
 }
 
 export async function getStaticProps() {
-
   return {
     props: {},
   };
