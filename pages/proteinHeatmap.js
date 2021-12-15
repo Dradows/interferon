@@ -19,7 +19,7 @@ export default function ProteinHeatmap() {
   const thresholdRef = useRef();
   const [selected, setSelected] = useState('HACD4/FOCAD');
   const [text, setText] = useState('');
-  const [threshold, setThreshold] = useState(0.2);
+  const [threshold, setThreshold] = useState(0.5);
   useEffect(() => {
     console.log(textRef.current);
     textRef.current.setValue(text);
@@ -118,6 +118,9 @@ export default function ProteinHeatmap() {
         left: 'left',
         dimension: 2,
         precision: 2,
+        inRange: {
+          color: ['#FFFFFF', '#E74C3C']
+        }
       },
       series: {
         type: 'heatmap',

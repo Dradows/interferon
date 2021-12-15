@@ -40,3 +40,23 @@
   box-shadow: inset -2px -2px 5px #0005, inset 2px 2px 5px #fff5;
   background-color: #1890ff !important;
 }
+
+.ant-layout {
+  background-color: #fff !important;
+}
+
+/* table {
+  @apply shadow;
+}
+
+th {
+    @apply shadow;
+}
+
+td {
+    @apply p-2 shadow;
+} */
+
+.markdown-body {
+  margin: auto !important;
+}
