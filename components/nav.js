@@ -7,13 +7,18 @@ const { SubMenu } = Menu;
 export default function Nav({ selected }) {
   return (
     <>
-      <Menu theme='dark' mode='horizontal' defaultSelectedKeys={[selected]}>
+      <Menu className='' theme='dark' mode='horizontal' defaultSelectedKeys={[selected]}>
+      <Menu.Item key='Index'>
+          <Link href='/'>
+            <a>Index</a>
+          </Link>
+        </Menu.Item>
         <Menu.Item key='Tree'>
           <Link href='/tree'>
             <a>Tree</a>
           </Link>
         </Menu.Item>
-        <Menu.Item key='Difference'>
+        <Menu.Item className='hover:rounded-full' key='Difference'>
           <Link href='/difference'>
             <a>Difference</a>
           </Link>

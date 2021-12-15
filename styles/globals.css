@@ -1,3 +1,42 @@
 /* @tailwind base; */
 /* @tailwind components; */
 @tailwind utilities;
+
+.ant-layout-header {
+  height: 54px !important;
+  line-height: 54px !important;
+  @apply align-middle;
+}
+
+.ant-menu {
+  line-height: 36px !important;
+  margin-top: 9px !important;
+}
+
+.ant-menu-item {
+  transition: all 0.5s !important;
+  border-radius: 9999px;
+}
+.ant-menu-submenu-horizontal {
+  transition: all 0.5s !important;
+  border-radius: 9999px;
+}
+
+.ant-menu-item-selected {
+  box-shadow: inset -2px -2px 5px #fff5, inset 2px 2px 5px #0005;
+  background-color: #1890ff;
+}
+.ant-menu-submenu-selected {
+  box-shadow: inset -2px -2px 5px #fff5, inset 2px 2px 5px #0005;
+  background-color: #1890ff !important;
+}
+
+.ant-menu-item:hover {
+  box-shadow: inset -2px -2px 5px #0005, inset 2px 2px 5px #fff5;
+  background-color: #1890ff;
+}
+
+.ant-menu-submenu-horizontal:hover {
+  box-shadow: inset -2px -2px 5px #0005, inset 2px 2px 5px #fff5;
+  background-color: #1890ff !important;
+}
