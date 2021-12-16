@@ -1,12 +1,16 @@
 import { Menu } from 'antd';
 import Link from 'next/link';
 import { DownOutlined } from '@ant-design/icons';
-
 const { SubMenu } = Menu;
+import Head from 'next/head'
 
 export default function Nav({ selected }) {
   return (
     <>
+    <Head>
+      {/* import icon */}
+      <link rel="icon" href="/interferon/favicon.png" />
+    </Head>
       <Menu className='' theme='dark' mode='horizontal' defaultSelectedKeys={[selected]}>
       <Menu.Item key='Index'>
           <Link href='/'>

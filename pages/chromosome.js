@@ -2,7 +2,7 @@ import Head from 'next/head';
 import tree from '../data/tree.json';
 import Nav from '../components/nav.js';
 import { useState, useEffect, useRef } from 'react';
-import { Layout, Input, Select } from 'antd';
+import { Layout, Input, Select, AutoComplete } from 'antd';
 import chResults from '../data/chResults.json';
 import * as echarts from 'echarts';
 
@@ -11,7 +11,8 @@ const { Option } = Select;
 
 // const Nav = dynamic(import('../components/nav.js'), { ssr: false });
 
-export default function Chromosome() {
+export default function Chromosome({ autocompleteOptions }) {
+  console.log(autocompleteOptions);
   const echartRef = useRef();
   const [height, setHeight] = useState(0);
   const [selected, setSelected] = useState('NC');
@@ -39,7 +40,6 @@ export default function Chromosome() {
     let tempList = speciesText.split(/[,，]/);
     tempList = tempList.map(x => x.trim());
     let speciesList = getSpecies(tree, tempList, false);
-    console.log(speciesList);
     let chk;
     if (selected == 'NC') {
       chk = true;
@@ -232,14 +232,46 @@ export default function Chromosome() {
             <Option value='NC'>only NC</Option>
             <Option value='both'>both NC and NW</Option>
           </Select>
-          <Input.Search
+          <AutoComplete
+            options={autocompleteOptions}
             size='large'
             style={{ width: '30%' }}
-            onSearch={e => setSpeciesText(e)}
-          />
+            onSelect={e => setSpeciesText(e)}
+            filterOption={(inputValue, option) =>
+              option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !==
+              -1
+            }
+          >
+            <Input.Search
+              size='large'
+              placeholder='input here'
+              enterButton
+              onSearch={e => setSpeciesText(e)}
+              allowClear={true}
+            />
+          </AutoComplete>
         </Input.Group>
         <div id='echarts'></div>
       </Content>
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  function getAllOptions(root) {
+    let result = [];
+    if (root.hasOwnProperty('children')) {
+      for (let x of root.children) {
+        result.push(...getAllOptions(x));
+      }
+    }
+    result.push({ value: root.name });
+    return result;
+  }
+  let autocompleteOptions = getAllOptions(tree);
+  return {
+    props: {
+      autocompleteOptions: autocompleteOptions,
+    },
+  };
 }
