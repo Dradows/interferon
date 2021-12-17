@@ -17,28 +17,36 @@
   transition: all 0.5s !important;
   border-radius: 9999px;
 }
+
 .ant-menu-submenu-horizontal {
   transition: all 0.5s !important;
   border-radius: 9999px;
 }
 
 .ant-menu-item-selected {
-  box-shadow: inset -2px -2px 5px #fff5, inset 2px 2px 5px #0005;
-  background-color: #1890ff;
+  box-shadow: inset -2px -2px 5px #fff3, inset 2px 2px 5px #0007;
+  background: linear-gradient(135deg, #0077ff 0%, #0095ff 50%, #0396ff 100%);
+  background-size: 400px 400px;
 }
+
 .ant-menu-submenu-selected {
-  box-shadow: inset -2px -2px 5px #fff5, inset 2px 2px 5px #0005;
-  background-color: #1890ff !important;
+  box-shadow: inset -2px -2px 5px #fff3, inset 2px 2px 5px #0007;
+  background: linear-gradient(135deg, #0077ff 0%, #0095ff 50%, #0396ff 100%);
+  background-size: 400px 400px;
 }
 
 .ant-menu-item:hover {
   box-shadow: inset -2px -2px 5px #0005, inset 2px 2px 5px #fff5;
-  background-color: #1890ff;
+  background: linear-gradient(135deg, #0077ff 0%, #0095ff 50%, #0396ff 100%);
+  background-size: 400px 400px;
+  background-position: -100px -100px;
 }
 
 .ant-menu-submenu-horizontal:hover {
   box-shadow: inset -2px -2px 5px #0005, inset 2px 2px 5px #fff5;
-  background-color: #1890ff !important;
+  background: linear-gradient(135deg, #0077ff 0%, #0095ff 50%, #0396ff 100%);
+  background-size: 400px 400px;
+  background-position: -100px -100px;
 }
 
 .ant-layout {

@@ -234,7 +234,6 @@ export default function Chromosome({ autocompleteOptions }) {
           </Select>
           <AutoComplete
             options={autocompleteOptions}
-            size='large'
             style={{ width: '30%' }}
             onSelect={e => setSpeciesText(e)}
             filterOption={(inputValue, option) =>
