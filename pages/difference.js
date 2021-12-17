@@ -174,6 +174,7 @@ export default function Difference({ cascaderOptions }) {
         tooltip: {
           formatter: function (params) {
             return (
+              '<div contenteditable="true">' +
               params.marker +
               params.name +
               '<br> number of exon: ' +
@@ -183,9 +184,12 @@ export default function Difference({ cascaderOptions }) {
               '<br>start: ' +
               params.value[6] +
               '<br>end: ' +
-              params.value[7]
+              params.value[7] +
+              '</div>'
             );
           },
+          enterable: true,
+          position:(point, params, dom, rect, size)=>[rect.x+rect.width-10,rect.y+rect.height-10],
         },
         dataZoom: [
           {
@@ -198,10 +202,6 @@ export default function Difference({ cascaderOptions }) {
             minValueSpan: 20,
             maxValueSpan: 500,
             realtime: false,
-          },
-          {
-            type: 'inside',
-            filterMode: 'weakFilter',
           },
         ],
         grid: {
