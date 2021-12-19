@@ -8,6 +8,7 @@ import { useState, useEffect, useRef } from 'react';
 import { message, Layout, Select, Input } from 'antd';
 import heatmap from '../data/proteinHeatmap.json';
 import axis from '../data/proteinAxis.json';
+import * as echarts from 'echarts';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -119,8 +120,8 @@ export default function ProteinHeatmap() {
         dimension: 2,
         precision: 2,
         inRange: {
-          color: ['#FFFFFF', '#E74C3C']
-        }
+          color: ['#FFFFFF', '#E74C3C'],
+        },
       },
       series: {
         type: 'heatmap',
@@ -128,7 +129,13 @@ export default function ProteinHeatmap() {
         progressive: 30000,
       },
     };
-    echartRef.current.getEchartsInstance().setOption(option);
+    let chartDom = document.getElementById('echart');
+    let myChart = echarts.init(chartDom);
+    myChart.setOption(option);
+    myChart.on('click', e =>
+      setText(e.name.split('_')[2] + '_' + e.name.split('_')[3])
+    );
+    // echartRef.current.getEchartsInstance().setOption(option);
   }, [selected, text, threshold]);
   return (
     <Layout>
@@ -180,7 +187,8 @@ export default function ProteinHeatmap() {
             />
           </Input.Group>
         </div>
-        <ReactECharts
+        <div id='echart' style={{ height: '90vh', width: '100%' }}></div>
+        {/* <ReactECharts
           ref={echartRef}
           option={{}}
           style={{ height: '90vh', width: '100%' }}
@@ -188,7 +196,7 @@ export default function ProteinHeatmap() {
             click: e =>
               setText(e.name.split('_')[2] + '_' + e.name.split('_')[3]),
           }}
-        />
+        /> */}
       </Content>
     </Layout>
   );

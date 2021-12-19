@@ -13,6 +13,10 @@
 
 # 近期更新
 
+调整Chromosome的显示效果，缩小单项高度增加单页显示数量，额外缩小非interferon高度增加区分度。
+
+将Heatmap从reactecharts换成原生echarts，希望解决意料外的组件自动刷新。
+
 Chromosome界面的搜索栏支持autocomplete自动补全
 
 Difference界面的tooltip提示信息支持复制。禁用datazoom insider，缩放只能由下方slider滑块进行控制，而不再能由滚轮控制，以免与页面滚动冲突。
@@ -20,6 +24,8 @@ Difference界面的tooltip提示信息支持复制。禁用datazoom insider，�
 修复关岛乌鸦基因组误用为小树雀基因组的错误。
 
 ## 待办清单
+
+改变Heatmap中identity的计算方式，引入打分机制，对gap进行额外扣分，仅计算高得分区域的identity，这将一定程度上解决长度差异导致的identity偏高现象。但要注意较短区间（比如个位数个氨基酸）仍可能是最高得分，但它们的高identity意义较小，因此需要优化算法使得选择的区间长度不少于一定值。
 
 Align界面。预计分为基因序列对齐和氨基酸序列对齐。部分基因序列长度较长，单次比对耗时较久，可能仅支持双序列比较。氨基酸序列相对较短，可以支持多序列比对，但算法有待优化。
 

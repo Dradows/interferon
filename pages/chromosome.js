@@ -52,7 +52,9 @@ export default function Chromosome({ autocompleteOptions }) {
       let mid = api.coord([(api.value(1) + api.value(2)) / 2, 0]);
       let width = api.size([api.value(2) - api.value(1), 0])[0];
       let height = api.size([0, 1])[1];
-
+      if (api.value(4) == 3) {
+        height /= 2;
+      }
       let shape = {
         x: mid[0] - width / 2,
         y: mid[1] - height,
@@ -151,7 +153,8 @@ export default function Chromosome({ autocompleteOptions }) {
           },
         },
         grid: {
-          bottom: 10,
+          top:30,
+          bottom: 30,
           left: '3%',
           right: 0,
           containLabel: true,
@@ -193,9 +196,8 @@ export default function Chromosome({ autocompleteOptions }) {
             },
             data: datas,
             labelLayout: {
-              dx: -30,
-              y: 15,
-              align: 'left',
+              y: 60,
+              align: 'center',
               moveOverlap: 'shiftX',
             },
           },
@@ -203,7 +205,7 @@ export default function Chromosome({ autocompleteOptions }) {
       };
       let el = document.createElement('div');
       el.setAttribute('id', 'main' + ii);
-      el.setAttribute('style', 'width: 95%; height: 100px; margin:auto;');
+      el.setAttribute('style', 'width: 95%; height: 80px; margin:auto;');
       document.getElementById('echarts').appendChild(el);
       let chartDom = document.getElementById('main' + ii);
       let myChart = echarts.init(chartDom, null, { renderer: 'canvas' });
