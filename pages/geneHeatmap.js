@@ -122,7 +122,13 @@ export default function GeneHeatmap() {
         progressive: 30000,
       },
     };
-    echartRef.current.getEchartsInstance().setOption(option);
+    let chartDom = document.getElementById('echart');
+    let myChart = echarts.init(chartDom);
+    myChart.setOption(option);
+    myChart.on('click', e =>
+      setText(e.name.split('_')[2] + '_' + e.name.split('_')[3])
+    );
+    // echartRef.current.getEchartsInstance().setOption(option);
   }, [selected, text, threshold]);
   return (
     <Layout>
@@ -174,7 +180,8 @@ export default function GeneHeatmap() {
             />
           </Input.Group>
         </div>
-        <ReactECharts
+        <div id='echart' style={{ height: '90vh', width: '100%' }}></div>
+        {/* <ReactECharts
           ref={echartRef}
           option={{}}
           style={{ height: '90vh', width: '100%' }}
@@ -182,7 +189,7 @@ export default function GeneHeatmap() {
             click: e =>
               setText(e.name.split('_')[2]),
           }}
-        />
+        /> */}
       </Content>
     </Layout>
   );
