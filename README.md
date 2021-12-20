@@ -27,7 +27,7 @@ Difference界面的tooltip提示信息支持复制。禁用datazoom insider，�
 
 ## 待办清单
 
-Chromosome添加interferon两旁基因显示
+Chromosome添加interferon两旁基因显示,添加氨基酸长度显示
 
 改变Heatmap中identity的计算方式，引入打分机制，对gap进行额外扣分，仅计算高得分区域的identity，这将一定程度上解决长度差异导致的identity偏高现象。但要注意较短区间（比如个位数个氨基酸）仍可能是最高得分，但它们的高identity意义较小，因此需要优化算法使得选择的区间长度不少于一定值。
 
