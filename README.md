@@ -13,6 +13,8 @@
 
 # 近期更新
 
+修改了Heatmap的筛选逻辑，更有利于发现特异基因。
+
 调整Chromosome的显示效果，缩小单项高度增加单页显示数量，额外缩小非interferon高度增加区分度。
 
 将Heatmap从reactecharts换成原生echarts，希望解决意料外的组件自动刷新。

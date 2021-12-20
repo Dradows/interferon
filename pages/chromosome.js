@@ -17,7 +17,6 @@ export default function Chromosome({ autocompleteOptions }) {
   const [height, setHeight] = useState(0);
   const [selected, setSelected] = useState('NC');
   const [speciesText, setSpeciesText] = useState('');
-  function update() {}
   useEffect(() => {
     document.getElementById('echarts').innerHTML = '';
     function getSpecies(root, list, chk) {
