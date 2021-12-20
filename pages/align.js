@@ -104,8 +104,8 @@ function GeneAlign({ gene1, gene2 }) {
 }
 
 export default function Align() {
-  const [gene1, setGene1] = useState('');
-  const [gene2, setGene2] = useState('');
+  const [gene1, setGene1] = useState(0);
+  const [gene2, setGene2] = useState(4);
   return (
     <Layout>
       <Head>
@@ -120,7 +120,7 @@ export default function Align() {
             size='large'
             allowClear={false}
             showSearch={true}
-            defaultValue={[]}
+            defaultValue={['Anas platyrhynchos_绿头鸭',0]}
             options={geneSequencesCascaderOptions}
             onChange={e => setGene1(e[1])}
             style={{ width: '30%' }}
@@ -129,7 +129,7 @@ export default function Align() {
             size='large'
             allowClear={false}
             showSearch={true}
-            defaultValue={[]}
+            defaultValue={['Aythya fuligula_凤头潜鸭',4]}
             options={geneSequencesCascaderOptions}
             onChange={e => setGene2(e[1])}
             style={{ width: '30%' }}
