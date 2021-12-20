@@ -11,13 +11,11 @@ const { Header, Footer, Sider, Content } = Layout;
 
 function GeneAlign({ gene1, gene2 }) {
   // if gene is not number, return
-  console.log(gene1, gene2);
   if (gene1 === '' || gene2 === '') {
     return <div>?</div>;
   }
   let a = geneSequences[gene1].sequence;
   let b = geneSequences[gene2].sequence;
-  console.log(a, b);
   let f = new Array(a.length + 1);
   for (let i = 0; i <= a.length; i++) {
     f[i] = new Array(b.length + 1);
