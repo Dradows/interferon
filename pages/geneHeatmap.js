@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { message, Layout, Select, Input } from 'antd';
 import heatmap from '../data/geneHeatmap.json';
 import axis from '../data/geneAxis.json';
+import * as echarts from 'echarts';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -126,7 +127,7 @@ export default function GeneHeatmap() {
     let myChart = echarts.init(chartDom);
     myChart.setOption(option);
     myChart.on('click', e =>
-      setText(e.name.split('_')[2] + '_' + e.name.split('_')[3])
+      setText(e.name.split('_')[2])
     );
     // echartRef.current.getEchartsInstance().setOption(option);
   }, [selected, text, threshold]);
@@ -162,6 +163,7 @@ export default function GeneHeatmap() {
               <Select.Option value='HACD4/FOCAD'>HACD4/FOCAD</Select.Option>
               <Select.Option value='UBAP2/UBE2R2'>UBAP2/UBE2R2</Select.Option>
               <Select.Option value='MTAP'>MTAP</Select.Option>
+              <Select.Option value='MOB3B'>MOB3B</Select.Option>
             </Select>
             <Input.Search
               placeholder='Gene'

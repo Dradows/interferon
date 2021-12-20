@@ -169,6 +169,7 @@ export default function ProteinHeatmap() {
               <Select.Option value='HACD4/FOCAD'>HACD4/FOCAD</Select.Option>
               <Select.Option value='UBAP2/UBE2R2'>UBAP2/UBE2R2</Select.Option>
               <Select.Option value='MTAP'>MTAP</Select.Option>
+              <Select.Option value='MOB3B'>MOB3B</Select.Option>
             </Select>
             <Input.Search
               placeholder='Protein'
@@ -186,6 +187,7 @@ export default function ProteinHeatmap() {
               style={{ width: 150 }}
             />
           </Input.Group>
+
         </div>
         <div id='echart' style={{ height: '90vh', width: '100%' }}></div>
         {/* <ReactECharts
