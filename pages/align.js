@@ -10,6 +10,10 @@ const { Header, Footer, Sider, Content } = Layout;
 // const Nav = dynamic(import('../components/nav.js'), { ssr: false });
 
 function GeneAlign({ gene1, gene2 }) {
+  function less(m1, m2) {
+    return m1[0] < m2[0] || (m1[0] == m2[0] && m1[1] < m2[1]);
+  }
+
   // if gene is not number, return
   if (gene1 === '' || gene2 === '') {
     return <div>?</div>;
@@ -49,11 +53,7 @@ function GeneAlign({ gene1, gene2 }) {
     for (let j = 1; j <= b.length; j++) {
       f[i][j][0] = [...f[i - 1][j - 1][0]];
       pre[i][j][0] = [i - 1, j - 1, 0];
-      if (
-        f[i][j][0][0] < f[i - 1][j - 1][1][0] ||
-        (f[i][j][0][0] == f[i - 1][j - 1][1][0] &&
-          f[i][j][0][1] < f[i - 1][j - 1][1][1])
-      ) {
+      if (less(f[i][j][0], f[i - 1][j - 1][1])) {
         f[i][j][0] = [...f[i - 1][j - 1][1]];
         pre[i][j][0] = [i - 1, j - 1, 1];
       }
@@ -62,7 +62,7 @@ function GeneAlign({ gene1, gene2 }) {
         f[i][j][1] = [...f[i - 1][j - 1][0]];
         pre[i][j][1] = [i - 1, j - 1, 0];
         f[i][j][1][0] += 1;
-        if (i > 1 && j > 1 && a[i - 2] == b[j - 2]) {
+        if (less(f[i][j][1], f[i - 1][j - 1][1])) {
           f[i][j][1] = [...f[i - 1][j - 1][1]];
           pre[i][j][1] = [i - 1, j - 1, 1];
           f[i][j][1][1] += 2;
@@ -76,10 +76,7 @@ function GeneAlign({ gene1, gene2 }) {
         let x = i + d.x;
         let y = j + d.y;
         for (let k = 0; k < 2; k++) {
-          if (
-            f[i][j][0][0] < f[x][y][k][0] ||
-            (f[i][j][0][0] == f[x][y][k][0] && f[i][j][0][1] < f[x][y][k][1])
-          ) {
+          if (less(f[i][j][0], f[x][y][k])) {
             f[i][j][0] = [...f[x][y][0]];
             pre[i][j][0] = [x, y, k];
           }
@@ -90,7 +87,7 @@ function GeneAlign({ gene1, gene2 }) {
   let x = a.length;
   let y = b.length;
   let k = 0;
-  if (f[x][y][1] > f[x][y][0]) k = 1;
+  if (less(f[x][y][0], f[x][y][1])) k = 1;
   let aa = [];
   let bb = [];
   while (x > 0 || y > 0) {
