@@ -85,8 +85,8 @@ export default function GeneHeatmap({ autocompleteOptions }) {
     let speciesListY = getSpecies(tree, tempListY, false);
     axisX = axisX.filter(x => speciesListX.includes(x[0]));
     axisY = axisY.filter(x => speciesListY.includes(x[0]));
-    console.log(axisX);
-    console.log(axisY);
+
+
     let lenX = axisX.length;
     let lenY = axisY.length;
     let newHeatmap = new Array(lenX);
@@ -111,7 +111,7 @@ export default function GeneHeatmap({ autocompleteOptions }) {
     }
     let showAxisX = axisX.map(d => d[0] + '_' + d[1]);
     let showAxisY = axisY.map(d => d[0] + '_' + d[1]);
-    console.log(data);
+
     var option;
 
     option = {

@@ -92,5 +92,5 @@ while (x > 0 || y > 0) {
 aa.reverse();
 bb.reverse();
 
-console.log(aa.join(''));
-console.log(bb.join(''));
+
+

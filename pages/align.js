@@ -65,6 +65,7 @@ function GeneAlign({ gene1, gene2 }) {
         if (less(f[i][j][1], f[i - 1][j - 1][1])) {
           f[i][j][1] = [...f[i - 1][j - 1][1]];
           pre[i][j][1] = [i - 1, j - 1, 1];
+          f[i][j][1][0] += 1;
           f[i][j][1][1] += 2;
         }
       }

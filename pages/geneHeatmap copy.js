@@ -19,7 +19,7 @@ export default function GeneHeatmap() {
   const [text, setText] = useState('');
   const [threshold, setThreshold] = useState(0.4);
   useEffect(() => {
-    console.log(textRef.current);
+
     textRef.current.setValue(text);
     if (text == '') {
       thresholdRef.current.setValue('');
@@ -50,9 +50,9 @@ export default function GeneHeatmap() {
     for (let i = 0; i < len; i++) {
       newHeatmap[i] = new Array(len);
     }
-    console.log(newAxis);
-    console.log(heatmap.length);
-    console.log(newHeatmap.length);
+
+
+
     for (let i = 0; i < len; i++) {
       for (let j = 0; j < len; j++) {
         newHeatmap[i][j] = heatmap[newAxis[i][4]][newAxis[j][4]];
@@ -70,7 +70,7 @@ export default function GeneHeatmap() {
       }
     }
     let showAxis = newAxis.map(d => d[0] + '_' + d[1]);
-    console.log(data);
+
     var option;
 
     option = {

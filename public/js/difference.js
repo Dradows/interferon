@@ -9,16 +9,16 @@ function draw(file) {
     .then(datas => {
       let json = datas[0];
       let species = datas[1];
-      //- console.log(json);
+      //-
       $('#main').css('height', 50 * json['data'].length + 200);
       myChart.resize();
       let mp = {};
       for (let i = 0; i < species.length; i++) {
         mp[species[i].join('_')] = i;
       }
-      console.log(mp);
+
       json['data'].sort((a, b) => mp[a['species']] - mp[b['species']]);
-      console.log(json['data']);
+
 
       function renderItem(params, api) {
         var categoryIndex = api.value(0);
@@ -245,9 +245,9 @@ function draw(file) {
       myChart.clear();
       option && myChart.setOption(option);
       fkOption = [...Array(100).keys()];
-      console.log(fkOption);
+
       myChart.on('legendselectchanged', params => {
-        console.log(params);
+
         myChart.dispatchAction({
           type: 'legendSelect',
           name: params['name'],

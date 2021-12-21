@@ -12,7 +12,7 @@ const { Header, Footer, Sider, Content } = Layout;
 export default function Difference({ cascaderOptions }) {
   function update(value, selectedOption) {
     setFile(value.join('_'));
-    console.log(value, selectedOption);
+
   }
   const echartRef = useRef();
   const [file, setFile] = useState('2_HACD4');
@@ -296,7 +296,7 @@ export default function Difference({ cascaderOptions }) {
 export async function getStaticProps() {
   // let cascaderOptions = (await import('../data/cascaderOptions.json')).default;
   let _cascaderOptions = [...cascaderOptions];
-  console.log(_cascaderOptions);
+
   _cascaderOptions.forEach(x => {
     x.children.splice(0, 0, {
       value: 'info',

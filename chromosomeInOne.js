@@ -38,7 +38,7 @@ export default function Chromosome() {
     let tempList = speciesText.split(/[,，]/);
     tempList = tempList.map(x => x.trim());
     let speciesList = getSpecies(tree, tempList, false);
-    console.log(speciesList);
+
     let chk;
     if (selected == 'NC') {
       chk = true;
@@ -90,7 +90,10 @@ export default function Chromosome() {
     };
     let groupDatas = chResults.filter(
       x =>
-        !((chk && x.chromosome.includes('NW')) || !speciesList.includes(x.species))
+        !(
+          (chk && x.chromosome.includes('NW')) ||
+          !speciesList.includes(x.species)
+        )
     );
     setHeight(groupDatas.length * 100 + 100);
     let gridIndex = 0;
@@ -206,8 +209,7 @@ export default function Chromosome() {
       });
       gridIndex++;
     }
-    console.log(option);
-    console.log(echartRef.current);
+
     echartRef.current.getEchartsInstance().clear();
     echartRef.current.getEchartsInstance().setOption(option);
   }, [selected, speciesText]);

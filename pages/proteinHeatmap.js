@@ -109,7 +109,7 @@ export default function ProteinHeatmap({ autocompleteOptions }) {
     }
     let showAxisX = axisX.map(d => d[0] + '_' + d[1]);
     let showAxisY = axisY.map(d => d[0] + '_' + d[1]);
-    console.log(data);
+
     var option;
 
     option = {

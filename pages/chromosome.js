@@ -12,7 +12,7 @@ const { Option } = Select;
 // const Nav = dynamic(import('../components/nav.js'), { ssr: false });
 
 export default function Chromosome({ autocompleteOptions }) {
-  console.log(autocompleteOptions);
+
   const echartRef = useRef();
   const [height, setHeight] = useState(0);
   const [selected, setSelected] = useState('NC');
