@@ -153,8 +153,8 @@ function GeneAlign({ gene1, gene2 }) {
 
 export default function Align({ align }) {
   console.log(align);
-  const [gene1, setGene1] = useState('61a85ac7bae1e2f3d68ef829');
-  const [gene2, setGene2] = useState('61a85ae0bae1e2f3d68ef82d');
+  const [gene1, setGene1] = useState(align[1]);
+  const [gene2, setGene2] = useState(align[3]);
   return (
     <Layout>
       <Head>
