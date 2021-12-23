@@ -51,31 +51,29 @@ export default function ProteinHeatmap({ autocompleteOptions }) {
     let axisX = axis;
     let axisY = axis;
     for (let i = 0; i < axis.length; i++) {
-      axisX[i].push(i);
-      axisY[i].push(i);
+      axisX[i].cnt = i;
+      axisY[i].cnt = i;
     }
     if (textX != '') {
-      let temp = axisX.find(x => x[1] == textX);
-      if (temp == undefined) {
+      axisX = axisX.filter(x => x.protein == textX);
+      if (axisX == undefined) {
         message.error('No such protein');
         return;
       }
-      axisX = axisX.filter(x=>x[1]==textX);
     } else if (selectedX != 'All') {
       let target = selectedX.split('/');
-      axisX = axisX.filter(x => x[2].some(y => target.includes(y)));
+      axisX = axisX.filter(x => x.neighbors.some(y => target.includes(y)));
     }
     if (textY != '') {
-      let temp = axisY.find(x => x[1] == textY);
-      if (temp == undefined) {
+      axisY = axisY.filter(x => x.protein == textX);
+      if (axisY == undefined) {
         message.error('No such protein');
         return;
       }
-      axisY = axisY.filter(x=>x[1]==textX);
     }
     if (selectedY != 'All') {
       let target = selectedY.split('/');
-      axisY = axisY.filter(x => x[2].some(y => target.includes(y)));
+      axisY = axisY.filter(x => x.neighbors.some(y => target.includes(y)));
     }
     let tempListX = speciesX.split(/[,，]/);
     tempListX = tempListX.map(x => x.trim());
@@ -83,8 +81,8 @@ export default function ProteinHeatmap({ autocompleteOptions }) {
     let tempListY = speciesY.split(/[,，]/);
     tempListY = tempListY.map(x => x.trim());
     let speciesListY = getSpecies(tree, tempListY, false);
-    axisX = axisX.filter(x => speciesListX.includes(x[0]));
-    axisY = axisY.filter(x => speciesListY.includes(x[0]));
+    axisX = axisX.filter(x => speciesListX.includes(x.species));
+    axisY = axisY.filter(x => speciesListY.includes(x.species));
     let lenX = axisX.length;
     let lenY = axisY.length;
     let newHeatmap = new Array(lenX);
@@ -93,7 +91,7 @@ export default function ProteinHeatmap({ autocompleteOptions }) {
     }
     for (let i = 0; i < lenX; i++) {
       for (let j = 0; j < lenY; j++) {
-        newHeatmap[i][j] = heatmap[axisX[i][4]][axisY[j][4]];
+        newHeatmap[i][j] = heatmap[axisX[i].cnt][axisY[j].cnt];
       }
     }
     for (let i = 0; i < lenX; i++) {
@@ -102,13 +100,23 @@ export default function ProteinHeatmap({ autocompleteOptions }) {
           i,
           j,
           newHeatmap[i][j],
-          axisX[i][0] + '_' + axisX[i][1] + '_' + axisX[i][2].join(','),
-          axisY[j][0] + '_' + axisY[j][1] + '_' + axisY[j][2].join(','),
+          axisX[i].species +
+            '_' +
+            axisX[i].protein +
+            '_' +
+            axisX[i].neighbors.join(','),
+          axisY[j].species +
+            '_' +
+            axisY[j].protein +
+            '_' +
+            axisY[j].neighbors.join(','),
+          axisX[i].id,
+          axisY[j].id,
         ]);
       }
     }
-    let showAxisX = axisX.map(d => d[0] + '_' + d[1]);
-    let showAxisY = axisY.map(d => d[0] + '_' + d[1]);
+    let showAxisX = axisX.map(d => d.species + '_' + d.protein);
+    let showAxisY = axisY.map(d => d.species + '_' + d.protein);
 
     var option;
 
@@ -169,7 +177,16 @@ export default function ProteinHeatmap({ autocompleteOptions }) {
     let myChart = echarts.init(chartDom);
     myChart.setOption(option);
     myChart.on('click', e =>
-      setTextX(e.name.split('_')[2] + '_' + e.name.split('_')[3])
+      window.open(
+        'align/' +
+          [
+            e.data[3].split('_')[0],
+            e.data[5],
+            e.data[4].split('_')[0],
+            e.data[6],
+          ].join('/'),
+        '_blank'
+      )
     );
     // echartRef.current.getEchartsInstance().setOption(option);
   }, [speciesX, speciesY, textX, textY, selectedX, selectedY]);

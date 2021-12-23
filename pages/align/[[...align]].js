@@ -1,11 +1,12 @@
 import Head from 'next/head';
-import tree from '../data/tree.json';
-import Nav from '../components/nav.js';
+import tree from '../../data/tree.json';
+import Nav from '../../components/nav.js';
 import { useState, useEffect, useRef } from 'react';
 import { Layout, Cascader } from 'antd';
-import geneSequencesCascaderOptions from '../data/geneSequencesCascaderOptions.json';
-import geneSequences from '../data/geneSequences.json';
+import geneSequencesCascaderOptions from '../../data/proteinSequencesCascaderOptions.json';
+import geneSequences from '../../data/proteinSequences.json';
 const { Header, Footer, Sider, Content } = Layout;
+import { useRouter } from 'next/router';
 
 // const Nav = dynamic(import('../components/nav.js'), { ssr: false });
 
@@ -13,13 +14,13 @@ function GeneAlign({ gene1, gene2 }) {
   function less(m1, m2) {
     return m1[0] < m2[0] || (m1[0] == m2[0] && m1[1] < m2[1]);
   }
-
+  // return <div></div>;
   // if gene is not number, return
   if (gene1 === '' || gene2 === '') {
     return <div>?</div>;
   }
-  let a = geneSequences[gene1].sequence;
-  let b = geneSequences[gene2].sequence;
+  let a = geneSequences[gene1];
+  let b = geneSequences[gene2];
   // a = '41234123412412312431331414341234144131423131342143214321234131234';
   // b = '41341234123412414123413432431412342431343123414321434123413211234';
   let f = new Array(a.length + 1);
@@ -150,9 +151,10 @@ function GeneAlign({ gene1, gene2 }) {
   );
 }
 
-export default function Align() {
-  const [gene1, setGene1] = useState(0);
-  const [gene2, setGene2] = useState(4);
+export default function Align({ align }) {
+  console.log(align);
+  const [gene1, setGene1] = useState('61a85ac7bae1e2f3d68ef829');
+  const [gene2, setGene2] = useState('61a85ae0bae1e2f3d68ef82d');
   return (
     <Layout>
       <Head>
@@ -167,7 +169,7 @@ export default function Align() {
             size='large'
             allowClear={false}
             showSearch={true}
-            defaultValue={['Anas platyrhynchos_绿头鸭', 0]}
+            defaultValue={[align[0], align[1]]}
             options={geneSequencesCascaderOptions}
             onChange={e => setGene1(e[1])}
             style={{ width: '30%' }}
@@ -176,7 +178,7 @@ export default function Align() {
             size='large'
             allowClear={false}
             showSearch={true}
-            defaultValue={['Aythya fuligula_凤头潜鸭', 4]}
+            defaultValue={[align[2], align[3]]}
             options={geneSequencesCascaderOptions}
             onChange={e => setGene2(e[1])}
             style={{ width: '30%' }}
@@ -188,8 +190,22 @@ export default function Align() {
   );
 }
 
-export async function getStaticProps() {
+export async function getStaticProps({ params }) {
+  let temp;
+  console.log(params);
+  if (params.align === undefined)
+    temp = [
+      'Anas platyrhynchos',
+      '61a85ac7bae1e2f3d68ef829',
+      'Aythya fuligula',
+      '61a85ae0bae1e2f3d68ef82d',
+    ];
+  else temp = params.align;
   return {
-    props: {},
+    props: { align: temp },
   };
+}
+
+export async function getStaticPaths() {
+  return { paths: [{ params: { align: [] } }], fallback: 'blocking' };
 }

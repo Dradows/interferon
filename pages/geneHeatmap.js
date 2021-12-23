@@ -51,8 +51,8 @@ export default function GeneHeatmap({ autocompleteOptions }) {
     let axisX = axis;
     let axisY = axis;
     for (let i = 0; i < axis.length; i++) {
-      axisX[i].push(i);
-      axisY[i].push(i);
+      axisX[i].cnt=i;
+      axisY[i].cnt=i;
     }
     if (textX != '') {
       let temp = axisX.find(x => x[1] == textX);

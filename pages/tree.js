@@ -75,7 +75,7 @@ export default function Tree() {
         <ReactECharts
           ref={echartRef}
           option={{}}
-          style={{ height: '1500px', width: '100%' }}
+          style={{ height: '1800px', width: '100%' }}
         />
       </Content>
     </Layout>
