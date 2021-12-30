@@ -10,7 +10,6 @@ import { useDynamicList } from 'ahooks';
 const { Header, Footer, Sider, Content } = Layout;
 
 function GeneAlign({ ids }) {
-
   console.log(ids);
 
   // return <div></div>;
@@ -307,7 +306,10 @@ export default function Align({ align, mp }) {
             allowClear={false}
             showSearch={true}
             options={proteinSequencesCascaderOptions}
-            onChange={e => {console.log(e);push(e[1])}}
+            onChange={e => {
+              if (e.length > 1) push(e[1]);
+              else push(e[0]);
+            }}
             style={{ width: '30%', margin: 'auto' }}
           />
           {list.map((item, index) => (
@@ -316,13 +318,13 @@ export default function Align({ align, mp }) {
                 size='large'
                 style={{ width: 300 }}
                 placeholder='Please enter name'
-                onChange={e => replace(index, e.target.value)}
+                // onChange={e => replace(index, e.target.value)}
                 value={mp[item]}
               />
 
               {list.length > 1 && (
                 <MinusSquareOutlined
-                  style={{ marginLeft: 8,fontSize: '20px',color:'#888' }}
+                  style={{ marginLeft: 8, fontSize: '20px', color: '#888' }}
                   onClick={() => {
                     remove(index);
                   }}
