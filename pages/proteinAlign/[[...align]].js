@@ -10,7 +10,6 @@ import { useDynamicList } from 'ahooks';
 const { Header, Footer, Sider, Content } = Layout;
 
 function GeneAlign({ ids }) {
-  console.log(ids.length);
   // return <div></div>;
   // if gene is not number, return
   // if (gene1 === '' || gene2 === '') {
@@ -214,7 +213,6 @@ function GeneAlign({ ids }) {
       }
     union(x, y);
   }
-  console.log(s);
   // let same letter bold
   let ss = new Array(s.length);
   for (let i = 0; i < s.length; i++) {
@@ -242,7 +240,6 @@ function GeneAlign({ ids }) {
       let ch = s[i][j];
       if (mp[ch] == undefined) {
         mp[ch] = color[cnt++];
-        console.log(mp.length);
       }
       // if (i == 0 && ch == '-') cnt++;
       ss[i].push({ value: ch, color: mp[ch] });
@@ -257,7 +254,6 @@ function GeneAlign({ ids }) {
       show.push([{ value: '\u2009' }]);
     }
   }
-  console.log(show);
   return (
     <div style={{ justifyContent: 'center', display: 'flex' }}>
       <div style={{ fontFamily: 'monospace' }} key='align'>
@@ -284,7 +280,6 @@ function GeneAlign({ ids }) {
 }
 
 export default function Align({ align, mp }) {
-  console.log(align);
   const [gene1, setGene1] = useState(align[1]);
   const [gene2, setGene2] = useState(align[3]);
   const { list, push, remove, getKey, insert, replace } = useDynamicList(align);
@@ -346,7 +341,6 @@ export async function getStaticProps({ params }) {
   for (let x of proteinSequencesCascaderOptions)
     for (let y of x.children) mp[y.value] = x.label + '/' + y.label;
   let temp;
-  console.log(params);
   if (params.align === undefined)
     temp = [
       '61a85ac7bae1e2f3d68ef829',
@@ -360,5 +354,5 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  return { paths: [{ params: { align: [] } }], fallback: 'blocking' };
+  return { paths: [{ params: { align: [] } }], fallback: true };
 }

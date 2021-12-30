@@ -172,7 +172,6 @@ function GeneAlign({ gene1, gene2 }) {
 }
 
 export default function Align({ align }) {
-  console.log(align);
   const [gene1, setGene1] = useState(align[1]);
   const [gene2, setGene2] = useState(align[3]);
   return (
@@ -212,7 +211,6 @@ export default function Align({ align }) {
 
 export async function getStaticProps({ params }) {
   let temp;
-  console.log(params);
   if (params.align === undefined)
     temp = [
       'Anas platyrhynchos',
