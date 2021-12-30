@@ -4,8 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Layout, Cascader, Input } from 'antd';
 import proteinSequencesCascaderOptions from '../../data/proteinSequencesCascaderOptions.json';
 import proteinSequences from '../../data/proteinSequences.json';
-import { useRouter } from 'next/router';
-import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { MinusSquareOutlined } from '@ant-design/icons';
 import { useDynamicList } from 'ahooks';
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -326,8 +325,8 @@ export default function Align({ align, mp }) {
               />
 
               {list.length > 1 && (
-                <MinusCircleOutlined
-                  style={{ marginLeft: 8 }}
+                <MinusSquareOutlined
+                  style={{ marginLeft: 8,fontSize: '20px',color:'#888' }}
                   onClick={() => {
                     remove(index);
                   }}

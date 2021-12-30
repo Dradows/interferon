@@ -180,9 +180,7 @@ export default function ProteinHeatmap({ autocompleteOptions }) {
       window.open(
         'align/' +
           [
-            e.data[3].split('_')[0],
             e.data[5],
-            e.data[4].split('_')[0],
             e.data[6],
           ].join('/'),
         '_blank'
