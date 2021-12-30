@@ -280,9 +280,7 @@ function GeneAlign({ ids }) {
 }
 
 export default function Align({ align, mp }) {
-  const [gene1, setGene1] = useState(align[1]);
-  const [gene2, setGene2] = useState(align[3]);
-  const { list, push, remove, getKey, insert, replace } = useDynamicList(align);
+  const { list, push, remove, getKey, replace } = useDynamicList(align);
 
   return (
     <Layout>

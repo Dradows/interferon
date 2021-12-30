@@ -178,7 +178,7 @@ export default function ProteinHeatmap({ autocompleteOptions }) {
     myChart.setOption(option);
     myChart.on('click', e =>
       window.open(
-        'align/' +
+        'proteinAlign/' +
           [
             e.data[5],
             e.data[6],
