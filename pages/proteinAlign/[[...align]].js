@@ -307,7 +307,7 @@ export default function Align({ align, mp }) {
             allowClear={false}
             showSearch={true}
             options={proteinSequencesCascaderOptions}
-            onChange={e => push(e[1])}
+            onChange={e => {console.log(e);push(e[1])}}
             style={{ width: '30%', margin: 'auto' }}
           />
           {list.map((item, index) => (
