@@ -10,6 +10,9 @@ import { useDynamicList } from 'ahooks';
 const { Header, Footer, Sider, Content } = Layout;
 
 function GeneAlign({ ids }) {
+
+  console.log(ids);
+
   // return <div></div>;
   // if gene is not number, return
   // if (gene1 === '' || gene2 === '') {
