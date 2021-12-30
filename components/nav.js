@@ -41,7 +41,7 @@ export default function Nav({ selected }) {
           </Menu.Item>
         </SubMenu>
         <Menu.Item key='Align'>
-          <Link href='/align'>
+          <Link href='/proteinAlign'>
             <a>Align</a>
           </Link>
         </Menu.Item>

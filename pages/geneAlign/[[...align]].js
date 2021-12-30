@@ -3,8 +3,8 @@ import tree from '../../data/tree.json';
 import Nav from '../../components/nav.js';
 import { useState, useEffect, useRef } from 'react';
 import { Layout, Cascader } from 'antd';
-import geneSequencesCascaderOptions from '../../data/proteinSequencesCascaderOptions.json';
-import geneSequences from '../../data/proteinSequences.json';
+import geneSequencesCascaderOptions from '../../data/geneSequencesCascaderOptions.json';
+import geneSequences from '../../data/geneSequences.json';
 const { Header, Footer, Sider, Content } = Layout;
 import { useRouter } from 'next/router';
 
@@ -37,37 +37,34 @@ function GeneAlign({ gene1, gene2 }) {
   for (let i = 0; i <= a.length; i++)
     for (let j = 0; j <= b.length; j++)
       for (let k = 0; k < 2; k++) {
-        f[i][j][k] = [0, 0];
-        pre[i][j][k] = [i - 1, j - 1, 0];
+        f[i][j][k] = 0;
+        pre[i][j][k] = [i - 1, j - 1];
       }
   for (let i = 1; i <= a.length; i++) {
     for (let k = 0; k < 2; k++) {
-      pre[i][0][k] = [i - 1, 0, 0];
+      pre[i][0][k] = [i - 1, 0];
     }
   }
   for (let j = 0; j <= b.length; j++) {
     for (let k = 0; k < 2; k++) {
-      pre[0][j][k] = [0, j - 1, 0];
+      pre[0][j][k] = [0, j - 1];
     }
   }
   for (let i = 1; i <= a.length; i++) {
     for (let j = 1; j <= b.length; j++) {
-      f[i][j][0] = [...f[i - 1][j - 1][0]];
-      pre[i][j][0] = [i - 1, j - 1, 0];
-      if (less(f[i][j][0], f[i - 1][j - 1][1])) {
-        f[i][j][0] = [...f[i - 1][j - 1][1]];
-        pre[i][j][0] = [i - 1, j - 1, 1];
+      f[i][j][0] = f[i - 1][j - 1][0];
+      pre[i][j][0] = [i - 1, j - 1];
+      if (f[i][j][0]< f[i - 1][j - 1][1]) {
+        f[i][j][0] = f[i - 1][j - 1][1];
+        pre[i][j][0] = [i - 1, j - 1];
       }
-      f[i][j][0][1] += 1;
       if (a[i - 1].toLowerCase() == b[j - 1].toLowerCase()) {
         f[i][j][1] = [...f[i - 1][j - 1][0]];
         pre[i][j][1] = [i - 1, j - 1, 0];
         f[i][j][1][0] += 1;
-        if (less(f[i][j][1], f[i - 1][j - 1][1])) {
-          f[i][j][1] = [...f[i - 1][j - 1][1]];
-          pre[i][j][1] = [i - 1, j - 1, 1];
-          f[i][j][1][0] += 1;
-          f[i][j][1][1] += 2;
+        if (f[i][j][1]<f[i - 1][j - 1][1]) {
+          f[i][j][1] = f[i - 1][j - 1][1];
+          pre[i][j][1] = [i - 1, j - 1];
         }
       }
       let ds = [
@@ -118,22 +115,15 @@ function GeneAlign({ gene1, gene2 }) {
   for (let i = 0; i < aa.length; i++) {
     if (aa[i] != '-' && aa[i].toLowerCase() == bb[i].toLowerCase()) {
       same++;
-      aa2.push(<b key={Math.random()}>{aa[i]}</b>);
-      bb2.push(<b key={Math.random()}>{bb[i]}</b>);
+      aa2.push(<b>{aa[i]}</b>);
+      bb2.push(<b>{bb[i]}</b>);
     } else {
       aa2.push(aa[i]);
       bb2.push(bb[i]);
     }
     // change line every 20
     if (i % 100 == 99 || i == aa.length - 1) {
-      show.push(
-        aa2,
-        <br key={Math.random()} />,
-        bb2,
-        <br key={Math.random()} />,
-        '↑ ' + same,
-        <br key={Math.random()} />
-      );
+      show.push(aa2, <br />, bb2, <br />, '↑ ' + same, <br />);
       aa2 = [];
       bb2 = [];
       same = 0;
@@ -152,7 +142,6 @@ function GeneAlign({ gene1, gene2 }) {
 }
 
 export default function Align({ align }) {
-  console.log(align);
   const [gene1, setGene1] = useState(align[1]);
   const [gene2, setGene2] = useState(align[3]);
   return (
@@ -192,7 +181,6 @@ export default function Align({ align }) {
 
 export async function getStaticProps({ params }) {
   let temp;
-  console.log(params);
   if (params.align === undefined)
     temp = [
       'Anas platyrhynchos',
