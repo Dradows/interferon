@@ -354,5 +354,5 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  return { paths: [{ params: { align: [] } }], fallback: true };
+  return { paths: [{ params: { align: [] } }], fallback: 'blocking' };
 }
