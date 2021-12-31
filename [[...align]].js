@@ -138,7 +138,8 @@ function GeneAlign({ gene1, gene2 }) {
       bb2.push({ value: bb[i] });
     }
     // change line every 20
-    if (i % 100 == 99 || i == aa.length - 1) {
+    let lineLength=60;
+    if (i % lineLength == lineLength-1 || i == aa.length - 1) {
       show.push(aa2, bb2);
       aa2 = [];
       bb2 = [];

@@ -68,3 +68,7 @@ td {
 .markdown-body {
   margin: auto !important;
 }
+
+.tdFirst{
+  padding-right: 10px;
+}

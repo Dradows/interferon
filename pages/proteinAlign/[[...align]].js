@@ -9,9 +9,7 @@ import { useDynamicList } from 'ahooks';
 
 const { Header, Footer, Sider, Content } = Layout;
 
-function GeneAlign({ ids }) {
-  console.log(ids);
-
+function GeneAlign({ ids, label }) {
   // return <div></div>;
   // if gene is not number, return
   // if (gene1 === '' || gene2 === '') {
@@ -34,10 +32,16 @@ function GeneAlign({ ids }) {
     if (xRoot == yRoot) return;
     if (rank[xRoot] < rank[yRoot]) {
       parent[xRoot] = yRoot;
+      group[yRoot].push(...group[xRoot]);
+      group[xRoot] = [];
     } else if (rank[xRoot] > rank[yRoot]) {
       parent[yRoot] = xRoot;
+      group[xRoot].push(...group[yRoot]);
+      group[yRoot] = [];
     } else {
       parent[yRoot] = xRoot;
+      group[xRoot].push(...group[yRoot]);
+      group[yRoot] = [];
       rank[xRoot]++;
     }
   }
@@ -70,7 +74,10 @@ function GeneAlign({ ids }) {
 
   let parent = [];
   let rank = [];
-
+  let group = new Array(ids.length);
+  for (let i = 0; i < ids.length; i++) {
+    group[i] = [i];
+  }
   // let s = ['abcdef', 'bdefg', 'aef', 'bfg'];
 
   let s = [];
@@ -218,22 +225,23 @@ function GeneAlign({ ids }) {
   // let same letter bold
   let ss = new Array(s.length);
   for (let i = 0; i < s.length; i++) {
-    ss[i] = new Array(s[i].length);
+    ss[i] = [{ value: label[ids[i]], className: 'tdFirst' }];
   }
   let show = [];
   let same = 0;
   let color = [
     '#5B8FF9AA',
-    '#61DDAA',
-    '#F6BD16',
-    '#7262fd',
-    '#78D3F8',
-    '#9661BC',
-    '#F6903D',
-    '#008685',
-    '#F08BB4',
+    '#61DDAAAA',
+    '#F6BD16AA',
+    '#7262fdAA',
+    '#78D3F8AA',
+    '#9661BCAA',
+    '#F6903DAA',
+    '#008685AA',
+    '#F08BB4AA',
     '#88888833',
   ];
+  let root = find(0);
   for (let j = 0; j < s[0].length; j++) {
     // let mp = { '-': color[9] };
     let mp = {};
@@ -248,17 +256,20 @@ function GeneAlign({ ids }) {
       // if (i == 0) mp['-'] = color[9];
     }
     // change line every 20
-    if (j % 100 == 99 || j == s[0].length - 1) {
+    let lineLength=80;
+    if (j % lineLength == lineLength-1 || j == s[0].length - 1) {
       for (let i = 0; i < ss.length; i++) {
-        show.push(ss[i]);
-        ss[i] = [];
+        show.push(ss[group[root][i]]);
+        ss[group[root][i]] = [
+          { value: label[ids[group[root][i]]], className: 'tdFirst' },
+        ];
       }
       show.push([{ value: '\u2009' }]);
     }
   }
   return (
     <div style={{ justifyContent: 'center', display: 'flex' }}>
-      <div style={{ fontFamily: 'monospace' }} key='align'>
+      <div style={{ fontFamily: 'monospace' }}>
         <table>
           <tbody>
             {show.map((item, cnt) => (
@@ -281,8 +292,8 @@ function GeneAlign({ ids }) {
   );
 }
 
-export default function Align({ align, mp }) {
-  const { list, push, remove, getKey, replace } = useDynamicList(align);
+export default function Align({ align, label }) {
+  const { list, push, remove, getKey } = useDynamicList(align);
 
   return (
     <Layout>
@@ -316,10 +327,10 @@ export default function Align({ align, mp }) {
             <div key={getKey(index)} style={{ margin: '10px auto 0 auto' }}>
               <Input
                 size='large'
-                style={{ width: 300 }}
+                style={{ width: 400 }}
                 placeholder='Please enter name'
                 // onChange={e => replace(index, e.target.value)}
-                value={mp[item]}
+                value={label[item]}
               />
 
               {list.length > 1 && (
@@ -333,16 +344,16 @@ export default function Align({ align, mp }) {
             </div>
           ))}
         </div>
-        <GeneAlign ids={list} />
+        <GeneAlign ids={list} label={label} />
       </Content>
     </Layout>
   );
 }
 
 export async function getStaticProps({ params }) {
-  let mp = {};
+  let label = {};
   for (let x of proteinSequencesCascaderOptions)
-    for (let y of x.children) mp[y.value] = x.label + '/' + y.label;
+    for (let y of x.children) label[y.value] = x.label + '/' + y.label;
   let temp;
   if (params.align === undefined)
     temp = [
@@ -352,7 +363,7 @@ export async function getStaticProps({ params }) {
     ];
   else temp = params.align;
   return {
-    props: { align: temp, mp: mp },
+    props: { align: temp, label: label },
   };
 }
 
