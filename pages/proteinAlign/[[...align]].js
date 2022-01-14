@@ -224,9 +224,6 @@ function GeneAlign({ ids, label }) {
   }
   // let same letter bold
   let ss = new Array(s.length);
-  for (let i = 0; i < s.length; i++) {
-    ss[i] = [{ value: label[ids[i]], className: 'tdFirst' }];
-  }
   let show = [];
   let same = 0;
   let color = [
@@ -242,12 +239,16 @@ function GeneAlign({ ids, label }) {
     '#88888833',
   ];
   let root = find(0);
+  for (let i = 0; i < s.length; i++) {
+    ss[i] = [{ value: label[ids[group[root][i]]], className: 'tdFirst' }];
+  }
   for (let j = 0; j < s[0].length; j++) {
     // let mp = { '-': color[9] };
     let mp = {};
     let cnt = 0;
     for (let i = 0; i < s.length; i++) {
-      let ch = s[i][j];
+      let x=group[root][i];
+      let ch = s[x][j];
       if (mp[ch] == undefined) {
         mp[ch] = color[cnt++];
       }
@@ -259,8 +260,8 @@ function GeneAlign({ ids, label }) {
     let lineLength=80;
     if (j % lineLength == lineLength-1 || j == s[0].length - 1) {
       for (let i = 0; i < ss.length; i++) {
-        show.push(ss[group[root][i]]);
-        ss[group[root][i]] = [
+        show.push(ss[i]);
+        ss[i] = [
           { value: label[ids[group[root][i]]], className: 'tdFirst' },
         ];
       }

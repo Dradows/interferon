@@ -12,7 +12,6 @@ const { Option } = Select;
 // const Nav = dynamic(import('../components/nav.js'), { ssr: false });
 
 export default function Chromosome({ autocompleteOptions }) {
-
   const echartRef = useRef();
   const [height, setHeight] = useState(0);
   const [selected, setSelected] = useState('NC');
@@ -51,7 +50,7 @@ export default function Chromosome({ autocompleteOptions }) {
       let mid = api.coord([(api.value(1) + api.value(2)) / 2, 0]);
       let width = api.size([api.value(2) - api.value(1), 0])[0];
       let height = api.size([0, 1])[1];
-      if (api.value(4) == 3) {
+      if (api.value(4) != 0) {
         height /= 2;
       }
       let shape = {
@@ -91,7 +90,11 @@ export default function Chromosome({ autocompleteOptions }) {
         let c = chromosome['data'][i];
         let color = 'red';
         let label = {};
-        if (c.type == '3') {
+        if (
+          c.type == '3' ||
+          (c.type == '2' &&
+            (c.gene[0] != 'L' || c.gene[1] != 'O' || c.gene[2] != 'C'))
+        ) {
           color = 'blue';
           datas.push({
             value: [
@@ -110,10 +113,10 @@ export default function Chromosome({ autocompleteOptions }) {
                 return params.value[5];
               },
               show: true,
-              position: 'left',
-              padding: 5,
+              position: 'top',
+              padding: 10,
               borderColor: '#0000',
-              borderWidth: 1,
+              borderWidth: 2,
             },
             labelLine: {
               show: true,
@@ -152,8 +155,8 @@ export default function Chromosome({ autocompleteOptions }) {
           },
         },
         grid: {
-          top:30,
-          bottom: 30,
+          top: 30,
+          bottom: 50,
           left: '3%',
           right: 0,
           containLabel: true,
@@ -195,20 +198,47 @@ export default function Chromosome({ autocompleteOptions }) {
             },
             data: datas,
             labelLayout: {
-              y: 60,
-              align: 'center',
+              y: 77,
+              align: 'left',
               moveOverlap: 'shiftX',
+              draggable:true,
             },
+            // labelLayout: function (params) {
+            //   console.log(params);
+            //   var isLeft = params.labelRect.x < myChart.getWidth() / 2;
+            //   var points = params.labelLinePoints;
+            //   // Update the end point.
+            //   // points[2][0] = isLeft
+            //   //   ? params.labelRect.x
+            //   //   : params.labelRect.x + params.labelRect.width;
+            //   points=[[0,0],[0,0],[0,0]]
+            //   return {
+            //     y: 80,
+            //     align: 'left',
+            //     moveOverlap: 'shiftX',
+            //     // labelLinePoints: [[],[],[params.labelRect.x + params.labelRect.width,80]]
+            //   };
+            // },
           },
         ],
       };
       let el = document.createElement('div');
       el.setAttribute('id', 'main' + ii);
-      el.setAttribute('style', 'width: 95%; height: 80px; margin:auto;');
+      el.setAttribute('style', 'width: 95%; height: 100px; margin:auto;');
       document.getElementById('echarts').appendChild(el);
       let chartDom = document.getElementById('main' + ii);
       let myChart = echarts.init(chartDom, null, { renderer: 'canvas' });
       myChart.setOption(option);
+      // write to clipboard
+      myChart.on('click', e => {
+        let el = document.createElement('textarea');
+        el.value = e.data.value[5];
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        // alert('Copied to clipboard');
+      });
     }
   }, [selected, speciesText]);
   return (
