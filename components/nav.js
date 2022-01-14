@@ -45,6 +45,11 @@ export default function Nav({ selected }) {
             <a>Align</a>
           </Link>
         </Menu.Item>
+        <Menu.Item key='Basic Query'>
+          <Link href='/query'>
+            <a>Basic Query</a>
+          </Link>
+        </Menu.Item>
       </Menu>
     </>
   );
