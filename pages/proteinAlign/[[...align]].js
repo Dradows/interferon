@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Nav from '../../components/nav.js';
-import { useState, useEffect, useRef } from 'react';
 import { Layout, Cascader, Input } from 'antd';
 import proteinSequencesCascaderOptions from '../../data/proteinSequencesCascaderOptions.json';
 import proteinSequences from '../../data/proteinSequences.json';
