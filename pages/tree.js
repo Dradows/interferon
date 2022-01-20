@@ -2,10 +2,10 @@ import Head from 'next/head';
 import tree from '../data/tree.json';
 import ReactECharts from 'echarts-for-react';
 import Nav from '../components/nav.js';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Layout } from 'antd';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
 // const Nav = dynamic(import('../components/nav.js'), { ssr: false });
 
@@ -54,7 +54,8 @@ export default function Tree() {
           emphasis: {
             focus: 'descendant',
           },
-          expandAndCollapse: true,
+          expandAndCollapse: false,
+          edgeForkPosition: 0.3,
           annimation: true,
           animationDuration: 550,
           animationDurationUpdate: 750,
@@ -62,6 +63,15 @@ export default function Tree() {
       ],
     };
     echartRef.current.getEchartsInstance().setOption(option);
+    echartRef.current.getEchartsInstance().on('click', e=> {
+      let el = document.createElement('textarea');
+      el.value = e.data.name.split('_')[0];
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      console.log(e);
+    })
   }, []);
   return (
     <Layout>
@@ -75,7 +85,7 @@ export default function Tree() {
         <ReactECharts
           ref={echartRef}
           option={{}}
-          style={{ height: '1800px', width: '100%' }}
+          style={{ height: '2000px', width: '100%' }}
         />
       </Content>
     </Layout>

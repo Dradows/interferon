@@ -2,7 +2,7 @@ import Head from 'next/head';
 import tree from '../data/tree.json';
 import Nav from '../components/nav.js';
 import { useState, useEffect, useRef } from 'react';
-import { Layout, Input, Select, AutoComplete } from 'antd';
+import { Layout, Input, Select, AutoComplete, Switch } from 'antd';
 import chResults from '../data/chResults.json';
 import * as echarts from 'echarts';
 
@@ -16,6 +16,7 @@ export default function Chromosome({ autocompleteOptions }) {
   const [height, setHeight] = useState(0);
   const [selected, setSelected] = useState('NC');
   const [speciesText, setSpeciesText] = useState('');
+  const [labelShow, setLabelShow] = useState(true);
   useEffect(() => {
     document.getElementById('echarts').innerHTML = '';
     function getSpecies(root, list, chk) {
@@ -112,14 +113,14 @@ export default function Chromosome({ autocompleteOptions }) {
               formatter: function (params) {
                 return params.value[5];
               },
-              show: true,
+              show: labelShow,
               position: 'top',
               padding: 10,
               borderColor: '#0000',
               borderWidth: 2,
             },
             labelLine: {
-              show: true,
+              show: labelShow,
               smooth: true,
             },
           });
@@ -138,6 +139,9 @@ export default function Chromosome({ autocompleteOptions }) {
             ],
           });
       }
+      let tempBottom=50;
+      if (!labelShow)
+        tempBottom=20;
       let option = {
         tooltip: {
           formatter: params => {
@@ -156,7 +160,7 @@ export default function Chromosome({ autocompleteOptions }) {
         },
         grid: {
           top: 30,
-          bottom: 50,
+          bottom: tempBottom,
           left: '3%',
           right: 0,
           containLabel: true,
@@ -177,9 +181,12 @@ export default function Chromosome({ autocompleteOptions }) {
         },
         yAxis: {
           name:
+            chromosome['species'].split('_')[0] +
+            '\n\n' +
             chromosome['species'].split('_')[1] +
             '\n' +
             chromosome['chromosome'].split(' ')[1],
+          triggerEvent: true,
           nameGap: 5,
           axisLabel: {
             show: false,
@@ -201,7 +208,7 @@ export default function Chromosome({ autocompleteOptions }) {
               y: 77,
               align: 'left',
               moveOverlap: 'shiftX',
-              draggable:true,
+              draggable: true,
             },
             // labelLayout: function (params) {
             //   console.log(params);
@@ -224,15 +231,25 @@ export default function Chromosome({ autocompleteOptions }) {
       };
       let el = document.createElement('div');
       el.setAttribute('id', 'main' + ii);
-      el.setAttribute('style', 'width: 95%; height: 100px; margin:auto;');
+      let tempHeight = '100px';
+      if (!labelShow) tempHeight = '70px';
+      el.setAttribute(
+        'style',
+        'width: 95%; height: ' + tempHeight + '; margin:auto;'
+      );
       document.getElementById('echarts').appendChild(el);
       let chartDom = document.getElementById('main' + ii);
       let myChart = echarts.init(chartDom, null, { renderer: 'canvas' });
       myChart.setOption(option);
       // write to clipboard
       myChart.on('click', e => {
+        console.log(e);
         let el = document.createElement('textarea');
-        el.value = e.data.value[5];
+        if (e.componentType == 'yAxis') {
+          el.value = e.name.split('\n')[0];
+        } else {
+          el.value = e.data.value[5];
+        }
         document.body.appendChild(el);
         el.select();
         document.execCommand('copy');
@@ -240,7 +257,7 @@ export default function Chromosome({ autocompleteOptions }) {
         // alert('Copied to clipboard');
       });
     }
-  }, [selected, speciesText]);
+  }, [selected, speciesText, labelShow]);
   return (
     <Layout>
       <Head>
@@ -281,6 +298,14 @@ export default function Chromosome({ autocompleteOptions }) {
             />
           </AutoComplete>
         </Input.Group>
+        <Switch
+          style={{ margin: '10px auto 0 auto', display: 'flex' }}
+          checkedChildren='Label Visible'
+          unCheckedChildren='Label Hidden'
+          defaultChecked
+          onChange={e => setLabelShow(e)}
+        />
+
         <div id='echarts'></div>
       </Content>
     </Layout>
