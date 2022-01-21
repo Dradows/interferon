@@ -62,7 +62,7 @@ export default function Chromosome() {
   async function getData(page, formData) {
     console.log(page, formData);
     let temp = datas;
-    let tempIncludes = ['gene', 'protein', 'neighbors'];
+    let tempIncludes = ['species','gene', 'protein', 'neighbors'];
     let tempPlus = ['exon'];
     console.log(formData);
     for (let x of tempIncludes) {
