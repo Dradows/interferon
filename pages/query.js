@@ -16,7 +16,7 @@ const { Option } = Select;
 export default function Chromosome() {
   // define random name and phone list
   const [form] = Form.useForm();
-  const datas=queryData;
+  const datas = queryData;
   const columns = [
     {
       title: 'Species',
@@ -33,6 +33,10 @@ export default function Chromosome() {
     {
       title: 'End',
       dataIndex: 'end',
+    },
+    {
+      title: 'Exon',
+      dataIndex: 'exon',
     },
     {
       title: 'Protein',
@@ -53,15 +57,20 @@ export default function Chromosome() {
     {
       title: 'Neighbors',
       dataIndex: 'neighbors',
-    }
+    },
   ];
   async function getData(page, formData) {
     console.log(page, formData);
     let temp = datas;
-    console.log(temp)
-    for (let x in formData) {
+    let tempIncludes = ['gene', 'protein', 'neighbors'];
+    let tempPlus = ['exon'];
+    console.log(formData);
+    for (let x of tempIncludes) {
       temp = temp.filter(d => !formData[x] || d[x].includes(formData[x]));
-      console.log(x,temp)
+    }
+    for (let x of tempPlus) {
+      temp = temp.filter(d => !formData[x] || d[x] >= formData[x]);
+      console.log(x, formData[x]);
     }
     const total = temp.length;
     temp = temp.slice(
@@ -89,6 +98,13 @@ export default function Chromosome() {
             form={form}
             style={{ display: 'flex', justifyContent: 'flex-end' }}
           >
+            <Form.Item name='species'>
+              <Input.Search
+                placeholder='enter species'
+                style={{ width: 240 }}
+                onSearch={submit}
+              />
+            </Form.Item>
             <Form.Item name='gene'>
               <Input.Search
                 placeholder='enter gene'
@@ -99,6 +115,13 @@ export default function Chromosome() {
             <Form.Item name='protein'>
               <Input.Search
                 placeholder='enter protein'
+                style={{ width: 240 }}
+                onSearch={submit}
+              />
+            </Form.Item>
+            <Form.Item name='exon'>
+              <Input.Search
+                placeholder='enter exon'
                 style={{ width: 240 }}
                 onSearch={submit}
               />
