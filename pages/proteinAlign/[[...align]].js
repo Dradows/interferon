@@ -6,6 +6,7 @@ import proteinSequences from '../../data/proteinSequences.json';
 import { MinusSquareOutlined, RightOutlined } from '@ant-design/icons';
 import { useDynamicList } from 'ahooks';
 import { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/router';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -324,8 +325,25 @@ function ProteinAlign({ ids, label }) {
   );
 }
 
-export default function Align({ align, label }) {
-  const { list, push, remove, getKey } = useDynamicList(align);
+export default function Align({}) {
+  let label = {};
+  for (let x of proteinSequencesCascaderOptions)
+    for (let y of x.children) label[y.value] = x.label + '/' + y.label;
+  const router = useRouter();
+  const { align } = router.query;
+  const { list, resetList, push, remove, getKey } = useDynamicList([]);
+  useEffect(() => {
+    console.log(align);
+    if (align !== undefined) {
+      if (align[0] == 'main')
+        resetList([
+          '61a85ac7bae1e2f3d68ef829',
+          '61a85ae0bae1e2f3d68ef82d',
+          '61a85ad4bae1e2f3d68ef82b',
+        ]);
+      else resetList(align);
+    }
+  }, [align, resetList]);
   return (
     <Layout>
       <Head>
@@ -379,25 +397,4 @@ export default function Align({ align, label }) {
       </Content>
     </Layout>
   );
-}
-
-export async function getStaticProps({ params }) {
-  let label = {};
-  for (let x of proteinSequencesCascaderOptions)
-    for (let y of x.children) label[y.value] = x.label + '/' + y.label;
-  let temp;
-  if (params.align === undefined)
-    temp = [
-      '61a85ac7bae1e2f3d68ef829',
-      '61a85ae0bae1e2f3d68ef82d',
-      '61a85ad4bae1e2f3d68ef82b',
-    ];
-  else temp = params.align;
-  return {
-    props: { align: temp, label: label },
-  };
-}
-
-export async function getStaticPaths() {
-  return { paths: [{ params: { align: [] } }], fallback: 'blocking' };
 }

@@ -2,17 +2,22 @@ import { Menu } from 'antd';
 import Link from 'next/link';
 import { DownOutlined } from '@ant-design/icons';
 const { SubMenu } = Menu;
-import Head from 'next/head'
+import Head from 'next/head';
 
 export default function Nav({ selected }) {
   return (
     <>
-    <Head>
-      {/* import icon */}
-      <link rel="icon" href="/interferon/favicon.png" />
-    </Head>
-      <Menu className='' theme='dark' mode='horizontal' defaultSelectedKeys={[selected]}>
-      <Menu.Item key='Index'>
+      <Head>
+        {/* import icon */}
+        <link rel='icon' href='/interferon/favicon.png' />
+      </Head>
+      <Menu
+        className=''
+        theme='dark'
+        mode='horizontal'
+        defaultSelectedKeys={[selected]}
+      >
+        <Menu.Item key='Index'>
           <Link href='/'>
             <a>Index</a>
           </Link>
@@ -41,13 +46,18 @@ export default function Nav({ selected }) {
           </Menu.Item>
         </SubMenu>
         <Menu.Item key='Align'>
-          <Link href='/proteinAlign'>
+          <Link href='/proteinAlign/main'>
             <a>Align</a>
           </Link>
         </Menu.Item>
         <Menu.Item key='Basic Query'>
           <Link href='/query'>
             <a>Basic Query</a>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key='Translocation'>
+          <Link href='/translocation'>
+            <a>Translocation</a>
           </Link>
         </Menu.Item>
       </Menu>

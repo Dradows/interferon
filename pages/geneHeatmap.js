@@ -44,8 +44,9 @@ export default function GeneHeatmap({ autocompleteOptions }) {
       }
       return result;
     }
-    textXRef.current.setValue(textX);
-    textYRef.current.setValue(textY);
+    console.log(textXRef,textXRef.current, textXRef.current !== null);
+    textXRef.current.value=textX;
+    textYRef.current.value=textY;
     let data = [];
     // set newAxis, newHeatmap from axis, heatmap
     let axisX = axis;
@@ -177,14 +178,7 @@ export default function GeneHeatmap({ autocompleteOptions }) {
     let myChart = echarts.init(chartDom);
     myChart.setOption(option);
     myChart.on('click', e =>
-      window.open(
-        'proteinAlign/' +
-          [
-            e.data[5],
-            e.data[6],
-          ].join('/'),
-        '_blank'
-      )
+      window.open('proteinAlign/' + [e.data[5], e.data[6]].join('/'), '_blank')
     );
     // echartRef.current.getEchartsInstance().setOption(option);
   }, [speciesX, speciesY, textX, textY, selectedX, selectedY]);
