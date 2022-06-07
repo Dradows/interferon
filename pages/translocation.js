@@ -3,8 +3,9 @@ import tree from '../data/tree.json';
 import Nav from '../components/nav.js';
 import { useState, useEffect, useRef } from 'react';
 import { Layout, Input, Select, AutoComplete, Switch } from 'antd';
-import chResults from '../data/chResults.json';
 import * as echarts from 'echarts';
+import translocation from '../data/translocation.json';
+import { main } from '@popperjs/core';
 
 const { Header, Footer, Sider, Content } = Layout;
 const { Option } = Select;
@@ -12,116 +13,80 @@ const { Option } = Select;
 // const Nav = dynamic(import('../components/nav.js'), { ssr: false });
 
 export default function Chromosome({ autocompleteOptions }) {
+  const [selected, setSelected] = useState('4');
+  let selection = [];
+  for (let i = 0; i < translocation.length; i++) {
+    selection.push(
+      translocation[i].data[0].value + '-' + translocation[i].data[0].name
+    );
+  }
   useEffect(() => {
-    let option = {
-      title: {
-        text: 'Basic Graph',
+    let categories = [
+      {
+        name: 'main',
       },
+      { name: 'similar gene' },
+      { name: 'initial neighbors' },
+      { name: 'common neighbors' },
+      { name: 'final neighbor' },
+    ];
+    let option = {
+      // title: {
+      //   text: 'Basic Graph',
+      // },
       tooltip: {
         formatter: params => {
-          return '123' + params.data.value[0];
+          return params.data.value;
         },
       },
       animationDurationUpdate: 1500,
       animationEasingUpdate: 'quinticInOut',
+      legend: [
+        {
+          data: categories.map(function (a) {
+            return a.name;
+          }),
+        },
+      ],
+
       series: [
         {
           type: 'graph',
-          layout: 'none',
-          symbolSize: 50,
+          layout: 'force',
+          force: {
+            // edgeLength: 45,
+            // layoutAnimation: false,
+          },
+          zoom: 3,
+          draggable: true,
+          symbolSize: 15,
           roam: true,
           label: {
             show: true,
           },
-          edgeSymbol: ['circle', 'arrow'],
-          edgeSymbolSize: [4, 10],
-          edgeLabel: {
-            show: true,
-            formatter: '{c}',
-            fontSize: 20,
-          },
-          data: [
-            {
-              name: 'Node 1',
-              x: 300,
-              y: 300,
-              value: [1, 2, 3],
-
-              itemStyle: {
-                color: 'red',
-              },
-            },
-            {
-              name: 'Node 2',
-              x: 800,
-              y: 300,
-            },
-            {
-              name: 'Node 3',
-              x: 550,
-              y: 100,
-            },
-            {
-              name: 'Node 4',
-              x: 550,
-              y: 500,
-            },
-          ],
+          // edgeSymbol: ['circle', 'arrow'],
+          // edgeSymbolSize: [4, 10],
+          // edgeLabel: {
+          //   show: true,
+          //   formatter: '{c}',
+          //   fontSize: 20,
+          // },
+          data: translocation[selected].data,
           // links: [],
-          links: [
-            {
-              source: 0,
-              target: 1,
-              value: 1.2,
-              label: {
-                show: true,
-                formatter: '{c}',
-              },
-              lineStyle: {
-                width: 5,
-                curveness: 0.2,
-              },
-            },
-            {
-              source: 'Node 2',
-              target: 'Node 1',
-              label: {
-                show: true,
-              },
-              lineStyle: {
-                curveness: 0.2,
-              },
-            },
-            {
-              source: 'Node 1',
-              target: 'Node 3',
-            },
-            {
-              source: 'Node 2',
-              target: 'Node 3',
-            },
-            {
-              source: 'Node 2',
-              target: 'Node 4',
-            },
-            {
-              source: 'Node 1',
-              target: 'Node 4',
-            },
-          ],
+          links: translocation[selected].links,
+          categories: categories,
           lineStyle: {
-            opacity: 0.9,
-            width: 2,
-            curveness: 0,
+            color: 'source',
+            curveness: 0.3,
           },
         },
       ],
     };
     let chartDom = document.getElementById('echarts');
-    let myChart = echarts.init(chartDom, null, { renderer: 'canvas' });
+    let myChart = echarts.init(chartDom);
     myChart.setOption(option);
     // write to clipboard);
-  }, []);
+  }, [selected]);
   return (
     <Layout>
       <Head>
@@ -136,61 +101,26 @@ export default function Chromosome({ autocompleteOptions }) {
           style={{ justifyContent: 'center', display: 'flex' }}
         >
           <Select
-            style={{ width: '15%' }}
-            defaultValue='NC'
+            style={{ width: '30%' }}
+            defaultValue={4}
             size='large'
             onChange={value => setSelected(value)}
           >
-            <Option value='NC'>only NC</Option>
-            <Option value='both'>both NC and NW</Option>
+            {selection.map(function (value, index) {
+              return (
+                <Select.Option key={index} value={index}>
+                  {value}
+                </Select.Option>
+              );
+            })}
           </Select>
-          <AutoComplete
-            options={autocompleteOptions}
-            style={{ width: '30%' }}
-            onSelect={e => setSpeciesText(e)}
-            filterOption={(inputValue, option) =>
-              option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !==
-              -1
-            }
-          >
-            <Input.Search
-              size='large'
-              placeholder='input here'
-              enterButton
-              onSearch={e => setSpeciesText(e)}
-              allowClear={true}
-            />
-          </AutoComplete>
         </Input.Group>
-        <Switch
-          style={{ margin: '10px auto 0 auto', display: 'flex' }}
-          checkedChildren='Label Visible'
-          unCheckedChildren='Label Hidden'
-          defaultChecked
-          onChange={e => setLabelShow(e)}
-        />
 
-        <div id='echarts' style={{width:'80%',height:'800px'}}></div>
+        <div
+          id='echarts'
+          style={{ marginTop: '100px', width: '80%', height: '600px' }}
+        ></div>
       </Content>
     </Layout>
   );
-}
-
-export async function getStaticProps() {
-  function getAllOptions(root) {
-    let result = [];
-    if (root.hasOwnProperty('children')) {
-      for (let x of root.children) {
-        result.push(...getAllOptions(x));
-      }
-    }
-    result.push({ value: root.name });
-    return result;
-  }
-  let autocompleteOptions = getAllOptions(tree);
-  return {
-    props: {
-      autocompleteOptions: autocompleteOptions,
-    },
-  };
 }
