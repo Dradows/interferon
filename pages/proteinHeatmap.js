@@ -44,8 +44,8 @@ export default function ProteinHeatmap({ autocompleteOptions }) {
       }
       return result;
     }
-    textXRef.current.setValue(textX);
-    textYRef.current.setValue(textY);
+    textXRef.current.value=textX;
+    textYRef.current.value=textY;
     let data = [];
     // set newAxis, newHeatmap from axis, heatmap
     let axisX = axis;
