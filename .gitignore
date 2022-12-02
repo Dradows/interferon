@@ -38,3 +38,5 @@ package-lock.json
 logs
 
 .babelrc
+
+pnpm-lock.yaml

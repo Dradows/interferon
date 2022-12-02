@@ -4,7 +4,7 @@ import Nav from '../components/nav.js';
 import { useState, useEffect, useRef } from 'react';
 import { Layout, Input, Select, AutoComplete } from 'antd';
 import queryData from '../data/query.json';
-import translation from '../data/sortedSpecies.json'
+import species from '../data/sortedSpecies.json';
 
 import { useAntdTable } from 'ahooks';
 import { Table, Form } from 'antd';
@@ -17,7 +17,14 @@ const { Option } = Select;
 export default function Chromosome() {
   // define random name and phone list
   const [form] = Form.useForm();
-  const datas = queryData;
+  let translation = {};
+  for (let x of species) {
+    translation[x[0]] = x[1];
+  }
+  let datas = JSON.parse(JSON.stringify(queryData));
+  for (let x of datas) {
+    x['species'] += '_' + translation[x['species']];
+  }
   const columns = [
     {
       title: 'Species',
@@ -63,7 +70,7 @@ export default function Chromosome() {
   async function getData(page, formData) {
     console.log(page, formData);
     let temp = datas;
-    let tempIncludes = ['species','gene', 'protein', 'neighbors'];
+    let tempIncludes = ['species', 'gene', 'protein', 'neighbors'];
     let tempPlus = ['exon'];
     for (let x of tempIncludes) {
       temp = temp.filter(d => !formData[x] || d[x].includes(formData[x]));
@@ -136,7 +143,11 @@ export default function Chromosome() {
             </Form.Item>
           </Form>
         </div>
-        <Table columns={columns} rowKey={record=>{record.protein+record.start}} {...tableProps} />
+        <Table
+          columns={columns}
+          rowKey={record => record.protein + record.start}
+          {...tableProps}
+        />
       </Content>
     </Layout>
   );

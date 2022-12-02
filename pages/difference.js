@@ -10,9 +10,9 @@ import cascaderOptions from '../data/cascaderOptions.json';
 const { Header, Footer, Sider, Content } = Layout;
 
 export default function Difference({ cascaderOptions }) {
+  console.log(cascaderOptions);
   function update(value, selectedOption) {
     setFile(value.join('_'));
-
   }
   const echartRef = useRef();
   const [file, setFile] = useState('2_HACD4');
@@ -189,7 +189,10 @@ export default function Difference({ cascaderOptions }) {
             );
           },
           enterable: true,
-          position:(point, params, dom, rect, size)=>[rect.x+rect.width-10,rect.y+rect.height-10],
+          position: (point, params, dom, rect, size) => [
+            rect.x + rect.width - 10,
+            rect.y + rect.height - 10,
+          ],
         },
         dataZoom: [
           {

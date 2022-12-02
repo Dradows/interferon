@@ -2,7 +2,7 @@ import Head from 'next/head';
 import tree from '../data/tree.json';
 import Nav from '../components/nav.js';
 import { useState, useEffect, useRef } from 'react';
-import { Layout, Input, Select, AutoComplete, Switch } from 'antd';
+import { Layout, Input, Select, AutoComplete, Switch, FloatButton } from 'antd';
 import chResults from '../data/chResults.json';
 import * as echarts from 'echarts';
 
@@ -139,9 +139,8 @@ export default function Chromosome({ autocompleteOptions }) {
             ],
           });
       }
-      let tempBottom=50;
-      if (!labelShow)
-        tempBottom=20;
+      let tempBottom = 50;
+      if (!labelShow) tempBottom = 20;
       let option = {
         tooltip: {
           formatter: params => {
@@ -267,12 +266,9 @@ export default function Chromosome({ autocompleteOptions }) {
         <Nav selected='Chromosome' />
       </Header>
       <Content style={{ padding: 10 }}>
-        <Input.Group
-          compact
-          style={{ justifyContent: 'center', display: 'flex' }}
-        >
+        <Input.Group style={{ justifyContent: 'center', display: 'flex' }}>
           <Select
-            style={{ width: '15%' }}
+            style={{ width: '15%', marginRight: 10 }}
             defaultValue='NC'
             size='large'
             onChange={value => setSelected(value)}

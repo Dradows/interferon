@@ -1,4 +1,4 @@
-import { Menu } from 'antd';
+import { Menu,FloatButton } from 'antd';
 import Link from 'next/link';
 import { DownOutlined } from '@ant-design/icons';
 const { SubMenu } = Menu;
@@ -12,6 +12,7 @@ export default function Nav({ selected }) {
         <link rel='icon' href='/interferon/favicon.png' />
       </Head>
 
+      <FloatButton.BackTop />
       <Menu
         className=''
         mode='horizontal'
