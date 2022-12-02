@@ -11,12 +11,47 @@ export default function Nav({ selected }) {
         {/* import icon */}
         <link rel='icon' href='/interferon/favicon.png' />
       </Head>
+
       <Menu
         className=''
-        theme='dark'
         mode='horizontal'
         defaultSelectedKeys={[selected]}
-      >
+        items={[
+          { key: 'Index', label: <Link href='/'>Index</Link> },
+          { key: 'Tree', label: <Link href='/tree'>Tree</Link> },
+          {
+            key: 'Difference',
+            label: <Link href='/difference'>Difference</Link>,
+          },
+          {
+            key: 'Chromosome',
+            label: <Link href='/chromosome'>Chromosome</Link>,
+          },
+          {
+            key: 'Heatmap',
+            label: 'Heatmap',
+            icon: <DownOutlined />,
+            children: [
+              {
+                key: 'Gene',
+                label: <Link href='/geneHeatmap'>Gene</Link>,
+              },
+              {
+                key: 'Protein',
+                label: <Link href='/proteinHeatmap'>Protein</Link>,
+              },
+            ],
+          },
+          { key: 'Align', label: <Link href='/proteinAlign/main'>Align</Link> },
+          { key: 'Query', label: <Link href='/query'>Query</Link> },
+          {
+            key: 'Translocation',
+            label: <Link href='/translocation'>Translocation</Link>,
+          },
+        ]}
+      />
+
+      {/* <Menu className='' mode='horizontal' defaultSelectedKeys={[selected]}>
         <Menu.Item key='Index'>
           <Link href='/'>
             <a>Index</a>
@@ -60,7 +95,7 @@ export default function Nav({ selected }) {
             <a>Translocation</a>
           </Link>
         </Menu.Item>
-      </Menu>
+      </Menu> */}
     </>
   );
 }

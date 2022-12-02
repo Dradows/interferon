@@ -8,7 +8,7 @@ const { Header, Footer, Sider, Content } = Layout;
 
 export default function Home({ file }) {
   return (
-    <Layout>
+    <Layout className="layout">
       <Header>
         <Nav selected='Index' />
       </Header>

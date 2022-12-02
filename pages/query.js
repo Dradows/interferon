@@ -4,6 +4,7 @@ import Nav from '../components/nav.js';
 import { useState, useEffect, useRef } from 'react';
 import { Layout, Input, Select, AutoComplete } from 'antd';
 import queryData from '../data/query.json';
+import translation from '../data/sortedSpecies.json'
 
 import { useAntdTable } from 'ahooks';
 import { Table, Form } from 'antd';
@@ -64,7 +65,6 @@ export default function Chromosome() {
     let temp = datas;
     let tempIncludes = ['species','gene', 'protein', 'neighbors'];
     let tempPlus = ['exon'];
-    console.log(formData);
     for (let x of tempIncludes) {
       temp = temp.filter(d => !formData[x] || d[x].includes(formData[x]));
     }
@@ -77,6 +77,7 @@ export default function Chromosome() {
       (page.current - 1) * page.pageSize,
       page.current * page.pageSize
     );
+    console.log(temp);
     return { total: total, list: temp };
   }
   const { tableProps, search, params } = useAntdTable(getData, {
@@ -135,7 +136,7 @@ export default function Chromosome() {
             </Form.Item>
           </Form>
         </div>
-        <Table columns={columns} rowKey='protein' {...tableProps} />
+        <Table columns={columns} rowKey={record=>{record.protein+record.start}} {...tableProps} />
       </Content>
     </Layout>
   );

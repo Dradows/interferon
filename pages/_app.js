@@ -1,10 +1,21 @@
-import '../styles/globals.css'
+import '../styles/globals.css';
 // import 'bootstrap/dist/css/bootstrap.css'
-import 'antd/dist/antd.css';
-import 'github-markdown-css/github-markdown-light.css'
+import 'antd/dist/reset.css';
+import 'github-markdown-css/github-markdown-light.css';
+import { ConfigProvider } from 'antd';
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#00b96b',
+        },
+      }}
+    >
+      <Component {...pageProps} />
+    </ConfigProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;
