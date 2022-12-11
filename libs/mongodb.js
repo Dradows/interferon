@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const uri = 'mongodb+srv://admin:admin@cluster0.pjbiw.mongodb.net/test';
+const uri = 'mongodb+srv://reader:reader@cluster0.pjbiw.mongodb.net/test';
 const options = {
   useUnifiedTopology: true,
   useNewUrlParser: true,
