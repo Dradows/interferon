@@ -14,61 +14,10 @@ const { Option } = Select;
 
 // const Nav = dynamic(import('../components/nav.js'), { ssr: false });
 
-export default function Chromosome() {
+export default function Query({ datas, columns }) {
   // define random name and phone list
   const [form] = Form.useForm();
-  let translation = {};
-  for (let x of species) {
-    translation[x[0]] = x[1];
-  }
-  let datas = JSON.parse(JSON.stringify(queryData));
-  for (let x of datas) {
-    x['species'] += '_' + translation[x['species']];
-  }
-  const columns = [
-    {
-      title: 'Species',
-      dataIndex: 'species',
-    },
-    {
-      title: 'Gene',
-      dataIndex: 'gene',
-    },
-    {
-      title: 'Start',
-      dataIndex: 'start',
-    },
-    {
-      title: 'End',
-      dataIndex: 'end',
-    },
-    {
-      title: 'Exon',
-      dataIndex: 'exon',
-    },
-    {
-      title: 'Protein',
-      dataIndex: 'protein',
-    },
-    {
-      title: 'Protein Length',
-      dataIndex: 'proteinLength',
-    },
-    // {
-    //   title: 'exon',
-    //   dataIndex: 'exon',
-    // },
-    // {
-    //   title: 'exon position',
-    //   dataIndex: 'exonPos',
-    // },
-    {
-      title: 'Neighbors',
-      dataIndex: 'neighbors',
-    },
-  ];
   async function getData(page, formData) {
-    console.log(page, formData);
     let temp = datas;
     let tempIncludes = ['species', 'gene', 'protein', 'neighbors'];
     let tempPlus = ['exon'];
@@ -77,14 +26,12 @@ export default function Chromosome() {
     }
     for (let x of tempPlus) {
       temp = temp.filter(d => !formData[x] || d[x] >= formData[x]);
-      console.log(x, formData[x]);
     }
     const total = temp.length;
     temp = temp.slice(
       (page.current - 1) * page.pageSize,
       page.current * page.pageSize
     );
-    console.log(temp);
     return { total: total, list: temp };
   }
   const { tableProps, search, params } = useAntdTable(getData, {
@@ -151,4 +98,63 @@ export default function Chromosome() {
       </Content>
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  let translation = {};
+  for (let x of species) {
+    translation[x[0]] = x[1];
+  }
+  let datas = JSON.parse(JSON.stringify(queryData));
+  for (let x of datas) {
+    x['species'] += '_' + translation[x['species']];
+  }
+  const columns = [
+    {
+      title: 'Species',
+      dataIndex: 'species',
+    },
+    {
+      title: 'Gene',
+      dataIndex: 'gene',
+    },
+    {
+      title: 'Start',
+      dataIndex: 'start',
+    },
+    {
+      title: 'End',
+      dataIndex: 'end',
+    },
+    {
+      title: 'Exon',
+      dataIndex: 'exon',
+    },
+    {
+      title: 'Protein',
+      dataIndex: 'protein',
+    },
+    {
+      title: 'Protein Length',
+      dataIndex: 'proteinLength',
+    },
+    // {
+    //   title: 'exon',
+    //   dataIndex: 'exon',
+    // },
+    // {
+    //   title: 'exon position',
+    //   dataIndex: 'exonPos',
+    // },
+    {
+      title: 'Neighbors',
+      dataIndex: 'neighbors',
+    },
+  ];
+  return {
+    props: {
+      datas,
+      columns,
+    },
+  };
 }

@@ -1,4 +1,4 @@
-import { Menu,FloatButton } from 'antd';
+import { Menu, FloatButton } from 'antd';
 import Link from 'next/link';
 import { DownOutlined } from '@ant-design/icons';
 const { SubMenu } = Menu;
@@ -44,7 +44,21 @@ export default function Nav({ selected }) {
             ],
           },
           { key: 'Align', label: <Link href='/proteinAlign/main'>Align</Link> },
-          { key: 'Query', label: <Link href='/query'>Query</Link> },
+          {
+            key: 'Query',
+            label: 'Query',
+            icon: <DownOutlined />,
+            children: [
+              {
+                key: 'QueryAll',
+                label: <Link href='/queryAll'>Query All</Link>,
+              },
+              {
+                key: 'QueryInterferon',
+                label: <Link href='/queryInterferon'>Query Interferon</Link>,
+              },
+            ],
+          },
           {
             key: 'Translocation',
             label: <Link href='/translocation'>Translocation</Link>,
